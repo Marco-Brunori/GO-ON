@@ -1,2 +1,0 @@
-Possibili dipendenze da installare:
-- lodash

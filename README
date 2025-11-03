@@ -1,0 +1,17 @@
+PER AVVIARE IL SERVER: npm run dev
+
+Dipendenze usate:
+[express]           : usato per creare il server web
+[nodemon]           : usato per riavviare automaticamente il server dopo un cambiamento
+[multer]            : gestisce upload di file
+[uuid]              : genera ID univoci (per fare upload di file .gpx)
+[cors]              : abilita richieste da frontend
+[dotenv]            : carica automaticamente le variabili d'ambiente nel progetto (dal file .env)
+[mongodb]           : driver per collegarsi al database ed accedere alle funzioni di MongoDB
+[mongoose]          : Object Data Modeling (ODM) per definire schemi, modelli e scrivere in generale codice più strutturato e tipizzato
+
+Se vuoi un sito tipo gpx.studio, puoi partire da Leaflet + OpenStreetMap e poi aggiungere:
+upload GPX (<input type="file">);
+salvataggio tracce su server (Node.js, Python, ecc.);
+più livelli mappa (es. satellitare, terreno);
+statistiche sul percorso.
