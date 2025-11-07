@@ -1,80 +1,376 @@
-FORMAT: 1A
-HOST: https://polls.apiblueprint.org/
+openapi: 3.0.4
+info:
+  version: '1.0'
+  title: "GO-ON OpenAPI 3.0"
+  description: API for managing book lendings.
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:3000/api
+    description: Localhost
+#  - url: https://easy-lib.onrender.com/api/v1
+#    description: render.com
+paths:
 
-# GO-ON
+  /authentications:
+    post:
+      summary: Authenticate a user
+      description: >
+        Authenticates a user using their email and password credentials.  
+        If authentication is successful, a JSON Web Token (JWT) is returned,  
+        which can be used to authorize subsequent requests.
+      requestBody:
+        description: >
+          User credentials must be provided in the request body as JSON.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: Email address of the user.
+                password:
+                  type: string
+                  format: password
+                  description: Password of the user.
+            examples:
+              validCredentials:
+                summary: Example of valid credentials
+                value:
+                  email: "mario.rossi@unitn.it"
+                  password: "password123"
+      responses:
+        '200':
+          description: Authentication successful — JWT issued.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                    description: Indicates whether authentication succeeded.
+                  token:
+                    type: string
+                    description: JSON Web Token (JWT) to be used for authorization.
+              examples:
+                successResponse:
+                  summary: Example response for a successful authentication
+                  value:
+                    success: true
+                    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        '401':
+          description: Unauthorized — invalid email or password.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid credentials."
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+  /trails:
+    get:
+      description: >
+        Gets the list of trails.
+        It is possible to filter trails by:
+        - id: /trails?id={id}
+      summary: View all trails
+      parameters:
+        - in: query
+          name: role
+          schema:
+            type: string
+            enum: [user, poweruser, admin]
+      responses:
+        '200':
+          description: 'Collection of students'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+    post:
+      description: >-
+        Creates a new student in the system.
+      summary: Register a new student
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/Student'
+            examples:
+              example1:
+                value:
+                  email: 'mario.rossi@unitn.it'
+      responses:
+        '201':
+          description: 'Student created. Link in the Location header'
+          headers:
+            'Location':
+              schema:
+                type: string
+              description: Link to the newly created student.
 
-## Questions Collection [/questions]
+  /books:
+    get:
+      description: >-
+        Gets the list of books.
+        It is possible to show books by their status /books?status={status}
+      summary: View all books
+      parameters:
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: [available, lended]
+      responses:
+        '200':
+          description: 'Collection of books'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+    post:
+      description: >-
+        Creates a new book in the system.
+      summary: Add a new book
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/Book'
+            examples:
+              example1:
+                value:
+                  title: 'The Great Gatsby'
+      responses:
+        '201':
+          description: 'Book created. Link in the Location header'
+          headers:
+            'Location':
+              schema:
+                type: string
+              description: Link to the newly created book.
+  /books/{bookId}:
+    get:
+      description: >-
+        Gets the book with the given ID.
+      summary: View a book
+      parameters:
+        - in: path
+          name: bookId
+          required: true
+          schema:
+            type: string
+          description: 'ID of the book'
+      responses:
+        '200':
+          description: 'Book found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '404':
+          description: 'Book not found'
+    delete:
+      description: >-
+        Deletes the book with the given ID.
+      summary: Delete a book
+      parameters:
+        - in: path
+          name: bookId
+          required: true
+          schema:
+            type: string
+          description: 'ID of the book'
+      responses:
+        '204':
+          description: 'Book deleted'
+        '404':
+          description: 'Book not found'
 
-### List All Questions [GET]
+  /booklendings:
+    get:
+      description: >-
+        Gets the list of booklendings.
+        It is possible to show booklendings by studentId /booklendings?studentId={student}
+      summary: View all booklendings
+      security:
+        - TokenQueryAuth: []
+          XAccessTokenHeaderAuth: []
+      parameters:
+        - in: query
+          name: studentId
+          schema:
+            type: string
+            description: 'ID of the student'
+      responses:
+        '200':
+          description: 'Collection of booklendings'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booklending'
+    post:
+      summary: Borrow a book
+      description: >-
+        Creates a new booklending.
+        Token must be passed in the header.
+        The student and book must already exist in the system.
+        The book must be available.
+        The book status will be set to 'lended'.
+        The booklending will be created with the current date as start date.
+        The booklending will be created with the end date set to 30 days from now.
+        The booklending will be created with the status 'active'.
+      security:
+        - TokenQueryAuth: []
+          XAccessTokenHeaderAuth: []
+      responses:
+        '201':
+          description: 'Booklending created. Link in the Location header'
+          headers:
+            'Location':
+              schema:
+                type: string
+              description: Link to the newly created booklending.
+      requestBody:
+        description: >-
+          The booklending object to be created.
+          The student and book must already exist in the system.
+          The book must be available.
+          The book status will be set to 'lended'.
+          The booklending will be created with the current date as start date.
+          The booklending will be created with the end date set to 30 days from now.
+          The booklending will be created with the status 'active'.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Booklending'
+            examples:
+              example1:
+                value:
+                  student: 'http://localhost:8080/api/v1/students/1'
+                  book: 'http://localhost:8080/api/v1/books/1'
+          
+components:
 
-+ Response 200 (application/json)
+  securitySchemes:
+    
+    XAccessTokenHeaderAuth: # arbitrary name for the security scheme
+      description: >-
+        The API authentication.
+        The API key must be passed in the header 'x-access-token'.
+        The API key must be a valid JWT token.
+      type: apiKey
+      in: header
+      name: x-access-token
+    
+    TokenQueryAuth: # arbitrary name for the security scheme
+      description: >-
+        The API authentication.
+        The API key must be passed in the query string 'token'.
+        The API key must be a valid JWT token.
+      type: apiKey
+      in: query
+      name: token
 
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
+  schemas:
 
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
-
-+ Request (application/json)
-
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            Location: /questions/2
-
-    + Body
-
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
-            }
+    Student:
+      type: object
+      required:
+        - email
+      properties:
+        self:
+          type: string
+          description: 'Link to the student'
+        email:
+          type: string
+          description: 'Email address of the student'
+    
+    Book:
+      type: object
+      required:
+        - title
+        - author
+        - ISBN
+        - status
+      properties:
+        self:
+          type: string
+          description: 'Link to the book'
+        title:
+          type: string
+          description: 'Title of the book'
+        author:
+          type: string
+          description: 'Author of the book'
+        ISBN:
+          type: string
+          description: 'ISBN of the book'
+        status:
+          type: string
+          enum: [available, lended]
+          description: 'Tells whether the book is currently available or not'
+    
+    Booklending:
+      type: object
+      required:
+      - student
+      - book
+      properties:
+        self:
+          type: string
+          description: 'Link to the booklending'
+        student:
+          type: string
+          description: 'Link to the student'
+        book:
+          type: string
+          description: 'Link to the book'
+        start_date:
+          type: string
+          format: date-time
+          description: 'Start date of the booklending'
+          default: '${currentDate}'
+        end_date:
+          type: string
+          format: date-time
+          description: 'End date of the booklending'
+        status:
+          type: string
+          enum: [active, expired]
+          description: 'Tells whether the booklending is currently active or not'
+        overdue:  
+          type: boolean
+          description: >-
+            Tells whether the booklending is currently overdue or not.
+            The booklending is overdue if the end date is in the past and the status is 'active'.
+            The booklending is not overdue if the end date is in the future and the status is 'active'.
+            The booklending is not overdue if the status is 'expired'.
+        overdue_days:
+          type: integer
+          description: >-
+            Number of days the booklending is overdue.
+            The booklending is overdue if the end date is in the past and the status is 'active'.
+            The booklending is not overdue if the end date is in the future and the status is 'active'.
+            The booklending is not overdue if the status is 'expired'.
+            The number of days is calculated as the difference between the current date and the end date.
