@@ -1,4 +1,7 @@
-PER AVVIARE IL SERVER: npm run dev
+Per avviare il progetto:
+1. npm install 
+2. creare file ".env" con all'interno l'utente
+3. npm run dev 
 
 Dipendenze usate:
 [express]           : usato per creare il server web
@@ -9,9 +12,3 @@ Dipendenze usate:
 [dotenv]            : carica automaticamente le variabili d'ambiente nel progetto (dal file .env)
 [mongodb]           : driver per collegarsi al database ed accedere alle funzioni di MongoDB
 [mongoose]          : Object Data Modeling (ODM) per definire schemi, modelli e scrivere in generale codice più strutturato e tipizzato
-
-Se vuoi un sito tipo gpx.studio, puoi partire da Leaflet + OpenStreetMap e poi aggiungere:
-upload GPX (<input type="file">);
-salvataggio tracce su server (Node.js, Python, ecc.);
-più livelli mappa (es. satellitare, terreno);
-statistiche sul percorso.

@@ -10,10 +10,7 @@ if (!uri) {
 }
 export async function connectToMongo() {
   try {
-    await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(uri);
     console.log("Connesso a MongoDB");
   } catch (err) {
     console.error("Errore connessione MongoDB", err);
