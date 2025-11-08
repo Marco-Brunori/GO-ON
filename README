@@ -1,3 +1,7 @@
+Nel caso non si riesca a clonare il progetto:
+1. git config --global credential.helper manager
+2. git clone https://github.com/Marco-Brunori/GO-ON.git
+
 Per avviare il progetto:
 1. npm install 
 2. creare file ".env" con all'interno l'utente
@@ -12,3 +16,45 @@ Dipendenze usate:
 [dotenv]            : carica automaticamente le variabili d'ambiente nel progetto (dal file .env)
 [mongodb]           : driver per collegarsi al database ed accedere alle funzioni di MongoDB
 [mongoose]          : Object Data Modeling (ODM) per definire schemi, modelli e scrivere in generale codice più strutturato e tipizzato
+
+API: 
+User
+POST /users – Creare un nuovo utente
+GET /users – Ottenere la lista di tutti gli utenti
+GET /users/{id} – Ottenere un singolo utente per _id
+PUT /users/{id} – Aggiornare un utente
+DELETE /users/{id} – Eliminare un utente
+POST /users/{id}/favorites – Aggiungere un trail ai preferiti
+DELETE /users/{id}/favorites/{trailId} – Rimuovere un trail dai preferiti
+GET /users/{id}/favorites – Ottenere lista dei trail preferiti da un utente
+
+Trail
+[FATTO] POST /trails – Creare un nuovo trail
+[FATTO] GET /trails – Ottenere lista di tutti i trail
+[FATTO] GET /trails/{id} – Ottenere un trail specifico
+[FATTO] PUT /trails/{id} – Aggiornare un trail
+[FATTO] DELETE /trails/{id} – Eliminare un trail
+[FATTO] GET /trails?tag=...&difficulty=... – Filtrare trail per tag, difficoltà o regione
+GET /trails/near?lat=...&lon=...&radius=... – Trovare trail vicino a coordinate geografiche
+
+Report
+[FATTO] POST /reports – Creare un nuovo report
+[FATTO] GET /reports – Ottenere lista di tutti i report
+[FATTO] GET /reports/{id} – Ottenere un report specifico
+[FATTO] DELETE /reports/{id} – Eliminare un report
+[FATTO] GET /reports/{idTrail}/trail - Ottenere lista di tutti i report per una specifica trail
+[FATTO] GET /users/{id}/reports – Ottenere report creati da un utente specifico
+
+Feedback
+POST /feedbacks – Creare un nuovo feedback
+GET /feedbacks/trail/{idTrail} – Ottenere lista di tutti i feedback per una specifica trail
+GET /feedbacks/{id} – Ottenere un feedback specifico
+PUT /feedbacks/{id} – Aggiornare un feedback
+DELETE /feedbacks/{id} – Eliminare un feedback
+GET /users/{id}/feedbacks – Ottenere feedback di un utente specifico
+GET /feedbacks?valutazione=... – Filtrare feedback per valutazione
+
+Possibili API cross-model / avanzate
+GET /trails/{id}/reports – Ottenere tutti i report relativi a un trail (se aggiungi un riferimento Trail in Report)
+GET /trails/{id}/feedbacks – Ottenere tutti i feedback relativi a un trail (se aggiungi un riferimento Trail in Feedback)
+GET /users/{id}/all-activity – Aggregare preferiti, report e feedback di un utente
