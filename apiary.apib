@@ -2,7 +2,7 @@ openapi: 3.0.4
 info:
   version: '1.0'
   title: "GO-ON OpenAPI 3.0"
-  description: API for managing book lendings.
+  description: API for viewing trails.
   license:
     name: MIT
 servers:
@@ -10,6 +10,7 @@ servers:
     description: Localhost
 #  - url: https://easy-lib.onrender.com/api/v1
 #    description: render.com
+
 paths:
 
   /authentications:
@@ -82,200 +83,511 @@ paths:
 
   /trails:
     get:
+      summary: View the trails
       description: >
-        Gets the list of trails.
+        Gets the list of trails.  
         It is possible to filter trails by:
         - id: /trails?id={id}
-      summary: View all trails
+        - region: /trails?region={region}
+        - valley: /trails?valley={valley}
+        - difficulty: /trails?difficulty={difficulty}
+        - tags: /trails?tags=tag1,tag2,...
+        - minLength: /trails?minLength={minLength}
+        - maxLength: /trails?maxLength={maxLength}
+        - minDuration: /trails?minDuration={minDuration}
+        - maxDuration: /trails?maxDuration={maxDuration}
       parameters:
-        - in: query
-          name: role
+        - name: id
+          in: query
           schema:
             type: string
-            enum: [user, poweruser, admin]
+        - name: region
+          in: query
+          schema:
+            type: string
+        - name: valley
+          in: query
+          schema:
+            type: string
+        - name: difficulty
+          in: query
+          schema:
+            type: string
+            enum: [Easy, Medium, Difficult]
+        - name: tags
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - linear_route
+                - scenic
+                - geological_highlights
+                - fauna
+                - healthy_climate
+                - round_trip
+                - cultural/historical_interest
+                - flora
+                - out_and_back
+                - refreshment_stops_available
+                - family-friendly
+                - multi-stage_route
+                - summit_route
+                - exposed_sections
+                - insider_tip
+                - ridge
+                - cableway_ascent/descent
+                - suitable_for_strollers
+                - secured_passages
+                - dog-friendly
+                - accessibility
+                - scrambling_required
+          style: form
+          explode: false   # Enables ?tags=scenic,flora,fauna
+        - name: minLength
+          in: query
+          schema:
+            type: number
+        - name: maxLength
+          in: query
+          schema:
+            type: number
+        - name: minDuration
+          in: query
+          schema:
+            type: number
+        - name: maxDuration
+          in: query
+          schema:
+            type: number
       responses:
         '200':
-          description: 'Collection of students'
+          description: List of trails
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Student'
+                  $ref: '#/components/schemas/Trail'
     post:
-      description: >-
-        Creates a new student in the system.
-      summary: Register a new student
-      requestBody:
-        content:
-          application/json:
-            schema: 
-              $ref: '#/components/schemas/Student'
-            examples:
-              example1:
-                value:
-                  email: 'mario.rossi@unitn.it'
-      responses:
-        '201':
-          description: 'Student created. Link in the Location header'
-          headers:
-            'Location':
-              schema:
-                type: string
-              description: Link to the newly created student.
-
-  /books:
-    get:
-      description: >-
-        Gets the list of books.
-        It is possible to show books by their status /books?status={status}
-      summary: View all books
-      parameters:
-        - in: query
-          name: status
-          schema:
-            type: string
-            enum: [available, lended]
-      responses:
-        '200':
-          description: 'Collection of books'
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Book'
-    post:
-      description: >-
-        Creates a new book in the system.
-      summary: Add a new book
-      requestBody:
-        content:
-          application/json:
-            schema: 
-              $ref: '#/components/schemas/Book'
-            examples:
-              example1:
-                value:
-                  title: 'The Great Gatsby'
-      responses:
-        '201':
-          description: 'Book created. Link in the Location header'
-          headers:
-            'Location':
-              schema:
-                type: string
-              description: Link to the newly created book.
-  /books/{bookId}:
-    get:
-      description: >-
-        Gets the book with the given ID.
-      summary: View a book
-      parameters:
-        - in: path
-          name: bookId
-          required: true
-          schema:
-            type: string
-          description: 'ID of the book'
-      responses:
-        '200':
-          description: 'Book found'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Book'
-        '404':
-          description: 'Book not found'
-    delete:
-      description: >-
-        Deletes the book with the given ID.
-      summary: Delete a book
-      parameters:
-        - in: path
-          name: bookId
-          required: true
-          schema:
-            type: string
-          description: 'ID of the book'
-      responses:
-        '204':
-          description: 'Book deleted'
-        '404':
-          description: 'Book not found'
-
-  /booklendings:
-    get:
-      description: >-
-        Gets the list of booklendings.
-        It is possible to show booklendings by studentId /booklendings?studentId={student}
-      summary: View all booklendings
+      summary: Publish a new trail
+      description: Creates a new trail in the system.
       security:
         - TokenQueryAuth: []
           XAccessTokenHeaderAuth: []
-      parameters:
-        - in: query
-          name: studentId
-          schema:
-            type: string
-            description: 'ID of the student'
-      responses:
-        '200':
-          description: 'Collection of booklendings'
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Booklending'
-    post:
-      summary: Borrow a book
-      description: >-
-        Creates a new booklending.
-        Token must be passed in the header.
-        The student and book must already exist in the system.
-        The book must be available.
-        The book status will be set to 'lended'.
-        The booklending will be created with the current date as start date.
-        The booklending will be created with the end date set to 30 days from now.
-        The booklending will be created with the status 'active'.
-      security:
-        - TokenQueryAuth: []
-          XAccessTokenHeaderAuth: []
-      responses:
-        '201':
-          description: 'Booklending created. Link in the Location header'
-          headers:
-            'Location':
-              schema:
-                type: string
-              description: Link to the newly created booklending.
       requestBody:
-        description: >-
-          The booklending object to be created.
-          The student and book must already exist in the system.
-          The book must be available.
-          The book status will be set to 'lended'.
-          The booklending will be created with the current date as start date.
-          The booklending will be created with the end date set to 30 days from now.
-          The booklending will be created with the status 'active'.
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Booklending'
-            examples:
-              example1:
-                value:
-                  student: 'http://localhost:8080/api/v1/students/1'
-                  book: 'http://localhost:8080/api/v1/books/1'
+              $ref: '#/components/schemas/Trail'
+            example:
+              _id: "28491"
+              title: "Loop with ascent to Corno di Tres"
+              description: "Trekking to Corno di Tres is one of the routes to do when you are in Trentino. This medium difficulty walk starts from Rifugio Predaia and reaches the incredibly panoramic summit of Corno di Tres! Those who want can continue by making a loop along the beautiful mountain ridge that divides the Val d'Adige from the Val di Non. Alternatively, you just go down the same way you came up."
+              region: "Trentino Alto-Adige"
+              valley: "Val di Non"
+              difficulty: "Medium"
+              lengthKm: 9.7
+              duration:
+                hours: 3
+                minutes: 30
+              roadbook: "From Rifugio Predaia take the dirt road (trail marker 503) which crosses, keeping level, meadows and young woods testifying to the advance of nature on land once used by man. Then you climb through a wooded area that leads to Malga Rodeza. You continue on the dirt road 503, then trail, until you take the Sentiero Italia (trail marker 500 S.I) which in one hour of walking and with a final slightly steep section, leads to the grassy summit of Corno di Tres.Corno di Tres (m.1812) is a strategic point from where you can admire a 360° panorama: the Val d'Adige, the northwestern Dolomites, Pampeago, Passo Lavazè, Monte Bondone, Paganella, the Brenta Group and the Maddalene Chain. For the return take trail 500 along the ridge that descends northwards and after the panoramic points below Corno del Cervo, take a trail that descends to the left and joins the dirt road with trail marker 526 and quickly returns to Malga Rodeza. From there you return to Rifugio Predaia “ai Todès-ci” via the way you came."
+              directions: "Start at Alagna Valsesia"
+              parking: "At Rifugio Predaia – “Ai Todès ci"
+              ascentM: 520
+              descentM: 520
+              highestPointM: 1811
+              lowestPointM: 1404
+              tags: ["round_trip", "scenic", "refreshment_stops_available", "summit_route"]
+              coordinates:
+                DD:
+                  lat: 46.315155
+                  lon: 11.153312
+                DMS:
+                  lat: "46°18'54.6\"N"
+                  lon: "11°09'11.9\"E"
+                UTM:
+                  zone: "32T"
+                  easting: 665785
+                  northing: 5131317
+      responses:
+        '201':
+          description: Trail created
           
+  /trails/{id}:
+    get:
+      summary: Get a trail by ID
+      description: Returns a single trail by its unique ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Trail found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trail'
+        '404':
+          description: Trail not found
+    put:
+      summary: Update a trail
+      description: Updates an existing trail by its ID.
+      security:
+        - TokenQueryAuth: []
+          XAccessTokenHeaderAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Trail'
+      responses:
+        '200':
+          description: Trail updated
+        '404':
+          description: Trail not found
+    delete:
+      summary: Delete a trail
+      description: Deletes a trail by its unique ID.
+      security:
+        - TokenQueryAuth: []
+          XAccessTokenHeaderAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Trail deleted successfully
+        '404':
+          description: Trail not found
+          
+    /reports:
+      post:
+        summary: Create a new report
+        description: Creates a new report for a trail.
+        security:
+          - TokenQueryAuth: []
+            XAccessTokenHeaderAuth: []
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+              example:
+                idUser: "6481e0f8a6f1e2a9b5c3d2f1"
+                idTrail: "28491"
+                titolo: "Trail blocked"
+                testo: "There is a fallen tree blocking the path."
+                state: "New"
+        responses:
+          '201':
+            description: Report created successfully
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Report'
+      get:
+        summary: Get all reports
+        description: Returns a list of all reports.
+        security:
+          - TokenQueryAuth: []
+            XAccessTokenHeaderAuth: []
+        responses:
+          '200':
+            description: List of reports
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Report'  
+        
+    /reports/{id}:
+      get:
+        summary: Get a report by ID
+        description: Returns a single report by its unique ID.
+        security:
+          - TokenQueryAuth: []
+            XAccessTokenHeaderAuth: []
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        responses:
+          '200':
+            description: Report found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Report'
+          '404':
+            description: Report not found
+      delete:
+        summary: Delete a report
+        description: Deletes a report by its unique ID.
+        security:
+          - TokenQueryAuth: []
+            XAccessTokenHeaderAuth: []
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        responses:
+          '204':
+            description: Report deleted successfully
+          '404':
+            description: Report not found              
+    
+    /reports/{idTrail}/trail:
+      get:
+        summary: Get all reports for a specific trail
+        description: Returns a list of reports associated with a specific trail.
+        security:
+          - TokenQueryAuth: []
+            XAccessTokenHeaderAuth: []
+        parameters:
+          - name: idTrail
+            in: path
+            required: true
+            schema:
+              type: string
+            description: Trail ID
+        responses:
+          '200':
+            description: List of reports for the specified trail
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Report'
+          '404':
+            description: Trail not found or no reports available
+          
+    /users/{id}/reports:
+      get:
+        summary: Get reports created by a specific user
+        description: Returns a list of reports created by a specific user.
+        security:
+          - TokenQueryAuth: []
+            XAccessTokenHeaderAuth: []
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+            description: User ID
+        responses:
+          '200':
+            description: List of reports for the specified user
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Report'
+          '404':
+            description: User not found
+                    
+    /feedbacks:
+      post:
+        summary: Create a new feedback
+        description: Creates a new feedback for a trail.
+        security:
+          - TokenQueryAuth: []
+            XAccessTokenHeaderAuth: []
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Feedback'
+              example:
+                idUser: "6481e0f8a6f1e2a9b5c3d2f1"
+                idTrail: "28491"
+                testo: "Beautiful trail, well maintained."
+                valutazione: 5
+        responses:
+          '201':
+            description: Feedback created successfully
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Feedback'
+  
+      get:
+        summary: Get all feedbacks
+        description: Returns a list of all feedbacks, optionally filtered by rating.
+        security:
+          - TokenQueryAuth: []
+            XAccessTokenHeaderAuth: []
+        parameters:
+          - name: valutazione
+            in: query
+            required: false
+            schema:
+              type: number
+              minimum: 1
+              maximum: 5
+            description: Filter feedbacks by rating value
+        responses:
+          '200':
+            description: List of feedbacks
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Feedback'
+
+    /feedbacks/{id}:
+      get:
+        summary: Get a feedback by ID
+        description: Returns a single feedback by its unique ID.
+        security:
+          - TokenQueryAuth: []
+            XAccessTokenHeaderAuth: []
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        responses:
+          '200':
+            description: Feedback found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Feedback'
+          '404':
+            description: Feedback not found
+  
+      put:
+        summary: Update a feedback
+        description: Updates an existing feedback by its ID.
+        security:
+          - TokenQueryAuth: []
+            XAccessTokenHeaderAuth: []
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Feedback'
+        responses:
+          '200':
+            description: Feedback updated successfully
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Feedback'
+          '404':
+            description: Feedback not found
+  
+      delete:
+        summary: Delete a feedback
+        description: Deletes a feedback by its unique ID.
+        security:
+          - TokenQueryAuth: []
+            XAccessTokenHeaderAuth: []
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        responses:
+          '204':
+            description: Feedback deleted successfully
+          '404':
+            description: Feedback not found
+
+    /feedbacks/trail/{idTrail}:
+      get:
+        summary: Get all feedbacks for a specific trail
+        description: Returns a list of feedbacks associated with a specific trail.
+        security:
+          - TokenQueryAuth: []
+            XAccessTokenHeaderAuth: []
+        parameters:
+          - name: idTrail
+            in: path
+            required: true
+            schema:
+              type: string
+            description: Trail ID
+        responses:
+          '200':
+            description: List of feedbacks for the specified trail
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Feedback'
+          '404':
+            description: Trail not found or no feedbacks available
+
+    /users/{id}/feedbacks:
+      get:
+        summary: Get feedbacks created by a specific user
+        description: Returns a list of feedbacks submitted by a specific user.
+        security:
+          - TokenQueryAuth: []
+            XAccessTokenHeaderAuth: []
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+            description: User ID
+        responses:
+          '200':
+            description: List of feedbacks for the specified user
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Feedback'
+          '404':
+            description: User not found
+                    
 components:
 
   securitySchemes:
-    
-    XAccessTokenHeaderAuth: # arbitrary name for the security scheme
-      description: >-
+  
+    XAccessTokenHeaderAuth:
+      description: >
         The API authentication.
         The API key must be passed in the header 'x-access-token'.
         The API key must be a valid JWT token.
@@ -283,8 +595,8 @@ components:
       in: header
       name: x-access-token
     
-    TokenQueryAuth: # arbitrary name for the security scheme
-      description: >-
+    TokenQueryAuth:
+      description: >
         The API authentication.
         The API key must be passed in the query string 'token'.
         The API key must be a valid JWT token.
@@ -293,84 +605,255 @@ components:
       name: token
 
   schemas:
-
-    Student:
+  
+    User:
       type: object
       required:
         - email
       properties:
-        self:
+        _id:
           type: string
-          description: 'Link to the student'
+          description: Unique identifier of the user
+        username:
+          type: string
+          description: The user's username
         email:
           type: string
-          description: 'Email address of the student'
-    
-    Book:
+          format: email
+          description: The user's email address
+        role:
+          type: string
+          enum:
+            - admin
+            - base
+          default: base
+          description: Role of the user
+        favorites:
+          type: array
+          items:
+            type: string
+            description: ObjectId of a favorite Trail
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the user was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the user was last updated
+
+    Trail:
       type: object
       required:
         - title
-        - author
-        - ISBN
-        - status
+        - region
+        - valley
+        - coordinates
+        - idAdmin
       properties:
-        self:
+        _id:
           type: string
-          description: 'Link to the book'
+          description: Unique identifier of the trail
         title:
           type: string
-          description: 'Title of the book'
-        author:
+          description: Name of the trail
+        description:
           type: string
-          description: 'Author of the book'
-        ISBN:
+          description: Detailed description of the trail
+        region:
           type: string
-          description: 'ISBN of the book'
-        status:
+          description: Region where the trail is located
+        valley:
           type: string
-          enum: [available, lended]
-          description: 'Tells whether the book is currently available or not'
-    
-    Booklending:
+          description: Valley where the trail is located
+        difficulty:
+          type: string
+          enum: ["Easy", "Medium", "Difficult"]
+          default: Easy
+          description: Difficulty level of the trail
+        lengthKm:
+          type: number
+          minimum: 0
+          description: Length of the trail in kilometers
+        duration:
+          type: object
+          properties:
+            hours:
+              type: number
+              minimum: 0
+              default: 0
+            minutes:
+              type: number
+              minimum: 0
+              maximum: 59
+              default: 0
+        roadbook:
+          type: string
+          description: Route notes for the trail
+        directions:
+          type: string
+          description: Directions to start the trail
+        parking:
+          type: string
+          description: Parking information
+        ascentM:
+          type: number
+          minimum: 0
+          description: Total ascent in meters
+        descentM:
+          type: number
+          minimum: 0
+          description: Total descent in meters
+        highestPointM:
+          type: number
+          description: Highest point of the trail in meters
+        lowestPointM:
+          type: number
+          description: Lowest point of the trail in meters
+        tags:
+          type: array
+          items:
+            type: string
+            enum:
+              - linear_route
+              - scenic
+              - geological_highlights
+              - fauna
+              - healthy_climate
+              - round_trip
+              - cultural/historical_interest
+              - flora
+              - out_and_back
+              - refreshment_stops_available
+              - family-friendly
+              - multi-stage_route
+              - summit_route
+              - exposed_sections
+              - insider_tip
+              - ridge
+              - cableway_ascent/descent
+              - suitable_for_strollers
+              - secured_passages
+              - dog-friendly
+              - accessibility
+              - scrambling_required
+        coordinates:
+          type: object
+          required: [DD]
+          properties:
+            DD:
+              type: object
+              required: [lat, lon]
+              properties:
+                lat:
+                  type: number
+                  minimum: -90
+                  maximum: 90
+                lon:
+                  type: number
+                  minimum: -180
+                  maximum: 180
+            DMS:
+              type: object
+              properties:
+                lat: { type: string }
+                lon: { type: string }
+            UTM:
+              type: object
+              properties:
+                zone: { type: string }
+                easting: { type: number, minimum: 0 }
+                northing: { type: number, minimum: 0 }
+        location:
+          type: object
+          properties:
+            type:
+              type: string
+              enum: ["Point"]
+              default: Point
+            coordinates:
+              type: array
+              items:
+                type: number
+              minItems: 2
+              maxItems: 2
+              description: [longitude, latitude]
+        idAdmin:
+          type: string
+          description: ObjectId of the admin user who created the trail
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    Report:
       type: object
       required:
-      - student
-      - book
+        - idUser
+        - idTrail
+        - titolo
+        - testo
+        - state
       properties:
-        self:
+        _id:
           type: string
-          description: 'Link to the booklending'
-        student:
+          description: Unique identifier of the report
+        idUser:
           type: string
-          description: 'Link to the student'
-        book:
+          description: ObjectId of the user who created the report
+        idTrail:
           type: string
-          description: 'Link to the book'
-        start_date:
+          description: ObjectId of the trail
+        titolo:
+          type: string
+          description: Title of the report
+        testo:
+          type: string
+          description: Text content of the report
+        state:
+          type: string
+          description: State of the report
+          enum: ["New", "In progress", "Resolved"]
+          default: "New"
+        createdAt:
           type: string
           format: date-time
-          description: 'Start date of the booklending'
-          default: '${currentDate}'
-        end_date:
+          description: Timestamp when the report was created
+        updatedAt:
           type: string
           format: date-time
-          description: 'End date of the booklending'
-        status:
+          description: Timestamp when the report was last updated
+
+    Feedback:
+      type: object
+      required:
+        - idUser
+        - valutazione
+      properties:
+        _id:
           type: string
-          enum: [active, expired]
-          description: 'Tells whether the booklending is currently active or not'
-        overdue:  
-          type: boolean
-          description: >-
-            Tells whether the booklending is currently overdue or not.
-            The booklending is overdue if the end date is in the past and the status is 'active'.
-            The booklending is not overdue if the end date is in the future and the status is 'active'.
-            The booklending is not overdue if the status is 'expired'.
-        overdue_days:
-          type: integer
-          description: >-
-            Number of days the booklending is overdue.
-            The booklending is overdue if the end date is in the past and the status is 'active'.
-            The booklending is not overdue if the end date is in the future and the status is 'active'.
-            The booklending is not overdue if the status is 'expired'.
-            The number of days is calculated as the difference between the current date and the end date.
+          description: Unique identifier of the feedback
+        idUser:
+          type: string
+          description: ObjectId of the user who submitted the feedback
+        idTrail:
+          type: string
+          description: ObjectID of the trail
+        testo:
+          type: string
+          description: Optional textual feedback
+        valutazione:
+          type: number
+          minimum: 1
+          maximum: 5
+          description: Rating value from 1 to 5
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the feedback was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the feedback was last updated
