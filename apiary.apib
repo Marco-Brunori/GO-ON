@@ -96,6 +96,8 @@ paths:
         - maxLength: /trails?maxLength={maxLength}
         - minDuration: /trails?minDuration={minDuration}
         - maxDuration: /trails?maxDuration={maxDuration}
+        You can combine multiple filters using the "&" symbol, for example:  
+        "/trails?region=Trentino_Alto-Adige&valley=Val_di_Non&difficulty=Medium"
       parameters:
         - name: id
           in: query
@@ -113,38 +115,7 @@ paths:
           in: query
           schema:
             type: string
-            enum: [Easy, Medium, Difficult]
-        - name: tags
-          in: query
-          schema:
-            type: array
-            items:
-              type: string
-              enum:
-                - linear_route
-                - scenic
-                - geological_highlights
-                - fauna
-                - healthy_climate
-                - round_trip
-                - cultural/historical_interest
-                - flora
-                - out_and_back
-                - refreshment_stops_available
-                - family-friendly
-                - multi-stage_route
-                - summit_route
-                - exposed_sections
-                - insider_tip
-                - ridge
-                - cableway_ascent/descent
-                - suitable_for_strollers
-                - secured_passages
-                - dog-friendly
-                - accessibility
-                - scrambling_required
-          style: form
-          explode: false   # Enables ?tags=scenic,flora,fauna
+            enum: ["Easy", "Medium", "Difficult"]
         - name: minLength
           in: query
           schema:
@@ -161,6 +132,37 @@ paths:
           in: query
           schema:
             type: number
+        - name: tags
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - linear_route
+                - scenic
+                - geological_highlights
+                - fauna
+                - healthy_climate
+                - round_trip
+                - cultural_historical_interest
+                - flora
+                - out_and_back
+                - refreshment_stops_available
+                - family_friendly
+                - multi_stage_route
+                - summit_route
+                - exposed_sections
+                - insider_tip
+                - ridge
+                - cableway_ascent_descent
+                - suitable_for_strollers
+                - secured_passages
+                - dog_friendly
+                - accessibility
+                - scrambling_required
+          style: form
+          explode: false   # Enables ?tags=scenic,flora,fauna
       responses:
         '200':
           description: List of trails
@@ -183,7 +185,6 @@ paths:
             schema:
               $ref: '#/components/schemas/Trail'
             example:
-              _id: "28491"
               title: "Loop with ascent to Corno di Tres"
               description: "Trekking to Corno di Tres is one of the routes to do when you are in Trentino. This medium difficulty walk starts from Rifugio Predaia and reaches the incredibly panoramic summit of Corno di Tres! Those who want can continue by making a loop along the beautiful mountain ridge that divides the Val d'Adige from the Val di Non. Alternatively, you just go down the same way you came up."
               region: "Trentino Alto-Adige"
@@ -276,314 +277,303 @@ paths:
         '404':
           description: Trail not found
           
-    /reports:
-      post:
-        summary: Create a new report
-        description: Creates a new report for a trail.
-        security:
-          - TokenQueryAuth: []
-            XAccessTokenHeaderAuth: []
-        requestBody:
-          required: true
+  /reports:
+    post:
+      summary: Create a new report
+      description: Creates a new report for a trail.
+      security:
+        - TokenQueryAuth: []
+          XAccessTokenHeaderAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Report'
+            example:
+              testo: "There is a fallen tree blocking the path."
+      responses:
+        '201':
+          description: Report created successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Report'
-              example:
-                idUser: "6481e0f8a6f1e2a9b5c3d2f1"
-                idTrail: "28491"
-                titolo: "Trail blocked"
-                testo: "There is a fallen tree blocking the path."
-                state: "New"
-        responses:
-          '201':
-            description: Report created successfully
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Report'
-      get:
-        summary: Get all reports
-        description: Returns a list of all reports.
-        security:
-          - TokenQueryAuth: []
-            XAccessTokenHeaderAuth: []
-        responses:
-          '200':
-            description: List of reports
-            content:
-              application/json:
-                schema:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Report'  
-        
-    /reports/{id}:
-      get:
-        summary: Get a report by ID
-        description: Returns a single report by its unique ID.
-        security:
-          - TokenQueryAuth: []
-            XAccessTokenHeaderAuth: []
-        parameters:
-          - name: id
-            in: path
-            required: true
-            schema:
-              type: string
-        responses:
-          '200':
-            description: Report found
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Report'
-          '404':
-            description: Report not found
-      delete:
-        summary: Delete a report
-        description: Deletes a report by its unique ID.
-        security:
-          - TokenQueryAuth: []
-            XAccessTokenHeaderAuth: []
-        parameters:
-          - name: id
-            in: path
-            required: true
-            schema:
-              type: string
-        responses:
-          '204':
-            description: Report deleted successfully
-          '404':
-            description: Report not found              
-    
-    /reports/{idTrail}/trail:
-      get:
-        summary: Get all reports for a specific trail
-        description: Returns a list of reports associated with a specific trail.
-        security:
-          - TokenQueryAuth: []
-            XAccessTokenHeaderAuth: []
-        parameters:
-          - name: idTrail
-            in: path
-            required: true
-            schema:
-              type: string
-            description: Trail ID
-        responses:
-          '200':
-            description: List of reports for the specified trail
-            content:
-              application/json:
-                schema:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Report'
-          '404':
-            description: Trail not found or no reports available
-          
-    /users/{id}/reports:
-      get:
-        summary: Get reports created by a specific user
-        description: Returns a list of reports created by a specific user.
-        security:
-          - TokenQueryAuth: []
-            XAccessTokenHeaderAuth: []
-        parameters:
-          - name: id
-            in: path
-            required: true
-            schema:
-              type: string
-            description: User ID
-        responses:
-          '200':
-            description: List of reports for the specified user
-            content:
-              application/json:
-                schema:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Report'
-          '404':
-            description: User not found
-                    
-    /feedbacks:
-      post:
-        summary: Create a new feedback
-        description: Creates a new feedback for a trail.
-        security:
-          - TokenQueryAuth: []
-            XAccessTokenHeaderAuth: []
-        requestBody:
+    get:
+      summary: Get all reports
+      description: Returns a list of all reports.
+      security:
+        - TokenQueryAuth: []
+          XAccessTokenHeaderAuth: []
+      responses:
+        '200':
+          description: List of reports
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Report'  
+  /reports/{id}:
+    get:
+      summary: Get a report by ID
+      description: Returns a single report by its unique ID.
+      security:
+        - TokenQueryAuth: []
+          XAccessTokenHeaderAuth: []
+      parameters:
+        - name: id
+          in: path
           required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Report found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+        '404':
+          description: Report not found
+    delete:
+      summary: Delete a report
+      description: Deletes a report by its unique ID.
+      security:
+        - TokenQueryAuth: []
+          XAccessTokenHeaderAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Report deleted successfully
+        '404':
+          description: Report not found              
+  
+  /reports/trail/{idTrail}:
+    get:
+      summary: Get all reports for a specific trail
+      description: Returns a list of reports associated with a specific trail.
+      security:
+        - TokenQueryAuth: []
+          XAccessTokenHeaderAuth: []
+      parameters:
+        - name: idTrail
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Trail ID
+      responses:
+        '200':
+          description: List of reports for the specified trail
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Report'
+        '404':
+          description: Trail not found or no reports available
+  
+  /users/reports/{idUser}:
+    get:
+      summary: Get reports created by a specific user
+      description: Returns a list of reports created by a specific user.
+      security:
+        - TokenQueryAuth: []
+          XAccessTokenHeaderAuth: []
+      parameters:
+        - name: idUser
+          in: path
+          required: true
+          schema:
+            type: string
+          description: User ID
+      responses:
+        '200':
+          description: List of reports for the specified user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Report'
+        '404':
+          description: User not found
+  
+  /feedbacks:
+    post:
+      summary: Create a new feedback
+      description: Creates a new feedback for a trail.
+      security:
+        - TokenQueryAuth: []
+          XAccessTokenHeaderAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Feedback'
+            example:
+              testo: "Beautiful trail, well maintained."
+              valutazione: 5
+      responses:
+        '201':
+          description: Feedback created successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Feedback'
-              example:
-                idUser: "6481e0f8a6f1e2a9b5c3d2f1"
-                idTrail: "28491"
-                testo: "Beautiful trail, well maintained."
-                valutazione: 5
-        responses:
-          '201':
-            description: Feedback created successfully
-            content:
-              application/json:
-                schema:
+    get:
+      summary: Get all feedbacks
+      description: Returns a list of all feedbacks, optionally filtered by rating.
+      parameters:
+        - name: valutazione
+          in: query
+          required: false
+          schema:
+            type: number
+            minimum: 1
+            maximum: 5
+          description: Filter feedbacks by rating value
+      responses:
+        '200':
+          description: List of feedbacks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
                   $ref: '#/components/schemas/Feedback'
   
-      get:
-        summary: Get all feedbacks
-        description: Returns a list of all feedbacks, optionally filtered by rating.
-        security:
-          - TokenQueryAuth: []
-            XAccessTokenHeaderAuth: []
-        parameters:
-          - name: valutazione
-            in: query
-            required: false
-            schema:
-              type: number
-              minimum: 1
-              maximum: 5
-            description: Filter feedbacks by rating value
-        responses:
-          '200':
-            description: List of feedbacks
-            content:
-              application/json:
-                schema:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Feedback'
-
-    /feedbacks/{id}:
-      get:
-        summary: Get a feedback by ID
-        description: Returns a single feedback by its unique ID.
-        security:
-          - TokenQueryAuth: []
-            XAccessTokenHeaderAuth: []
-        parameters:
-          - name: id
-            in: path
-            required: true
-            schema:
-              type: string
-        responses:
-          '200':
-            description: Feedback found
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Feedback'
-          '404':
-            description: Feedback not found
-  
-      put:
-        summary: Update a feedback
-        description: Updates an existing feedback by its ID.
-        security:
-          - TokenQueryAuth: []
-            XAccessTokenHeaderAuth: []
-        parameters:
-          - name: id
-            in: path
-            required: true
-            schema:
-              type: string
-        requestBody:
+  /feedbacks/{id}:
+    get:
+      summary: Get a feedback by ID
+      description: Returns a single feedback by its unique ID.
+      parameters:
+        - name: id
+          in: path
           required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Feedback found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Feedback'
-        responses:
-          '200':
-            description: Feedback updated successfully
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Feedback'
-          '404':
-            description: Feedback not found
+        '404':
+          description: Feedback not found
   
-      delete:
-        summary: Delete a feedback
-        description: Deletes a feedback by its unique ID.
-        security:
-          - TokenQueryAuth: []
-            XAccessTokenHeaderAuth: []
-        parameters:
-          - name: id
-            in: path
-            required: true
+    put:
+      summary: Update a feedback
+      description: Updates an existing feedback by its ID.
+      security:
+        - TokenQueryAuth: []
+          XAccessTokenHeaderAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
             schema:
-              type: string
-        responses:
-          '204':
-            description: Feedback deleted successfully
-          '404':
-            description: Feedback not found
+              $ref: '#/components/schemas/Feedback'
+      responses:
+        '200':
+          description: Feedback updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Feedback'
+        '404':
+          description: Feedback not found
+  
+    delete:
+      summary: Delete a feedback
+      description: Deletes a feedback by its unique ID.
+      security:
+        - TokenQueryAuth: []
+          XAccessTokenHeaderAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Feedback deleted successfully
+        '404':
+          description: Feedback not found
+  
+  /feedbacks/trail/{idTrail}:
+    get:
+      summary: Get all feedbacks for a specific trail
+      description: Returns a list of feedbacks associated with a specific trail.
+      security:
+        - TokenQueryAuth: []
+          XAccessTokenHeaderAuth: []
+      parameters:
+        - name: idTrail
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Trail ID
+      responses:
+        '200':
+          description: List of feedbacks for the specified trail
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Feedback'
+        '404':
+          description: Trail not found or no feedbacks available
+  
+  /users/feedbacks/{idUser}:
+    get:
+      summary: Get feedbacks created by a specific user
+      description: Returns a list of feedbacks submitted by a specific user.
+      security:
+        - TokenQueryAuth: []
+          XAccessTokenHeaderAuth: []
+      parameters:
+        - name: idUser
+          in: path
+          required: true
+          schema:
+            type: string
+          description: User ID
+      responses:
+        '200':
+          description: List of feedbacks for the specified user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Feedback'
+        '404':
+          description: User not found
+  
+  
+  
 
-    /feedbacks/trail/{idTrail}:
-      get:
-        summary: Get all feedbacks for a specific trail
-        description: Returns a list of feedbacks associated with a specific trail.
-        security:
-          - TokenQueryAuth: []
-            XAccessTokenHeaderAuth: []
-        parameters:
-          - name: idTrail
-            in: path
-            required: true
-            schema:
-              type: string
-            description: Trail ID
-        responses:
-          '200':
-            description: List of feedbacks for the specified trail
-            content:
-              application/json:
-                schema:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Feedback'
-          '404':
-            description: Trail not found or no feedbacks available
 
-    /users/{id}/feedbacks:
-      get:
-        summary: Get feedbacks created by a specific user
-        description: Returns a list of feedbacks submitted by a specific user.
-        security:
-          - TokenQueryAuth: []
-            XAccessTokenHeaderAuth: []
-        parameters:
-          - name: id
-            in: path
-            required: true
-            schema:
-              type: string
-            description: User ID
-        responses:
-          '200':
-            description: List of feedbacks for the specified user
-            content:
-              application/json:
-                schema:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Feedback'
-          '404':
-            description: User not found
-                    
 components:
-
   securitySchemes:
   
     XAccessTokenHeaderAuth:
@@ -611,16 +601,21 @@ components:
       required:
         - email
       properties:
-        _id:
+        id:
           type: string
-          description: Unique identifier of the user
+          description: Unique identifier of the user (MongoDB ObjectId)
+          readOnly: true
+
         username:
           type: string
           description: The user's username
+
         email:
           type: string
           format: email
           description: The user's email address
+          x-unique: true
+
         role:
           type: string
           enum:
@@ -628,53 +623,69 @@ components:
             - base
           default: base
           description: Role of the user
+
         favorites:
           type: array
           items:
             type: string
             description: ObjectId of a favorite Trail
+
         createdAt:
           type: string
           format: date-time
           description: Timestamp when the user was created
+          readOnly: true
+
         updatedAt:
           type: string
           format: date-time
           description: Timestamp when the user was last updated
+          readOnly: true
+
 
     Trail:
       type: object
       required:
         - title
-        - region
-        - valley
         - coordinates
         - idAdmin
       properties:
-        _id:
+        id:
           type: string
-          description: Unique identifier of the trail
+          description: Unique identifier of the trail (MongoDB ObjectId)
+          readOnly: true
+          
         title:
           type: string
           description: Name of the trail
+    
         description:
           type: string
           description: Detailed description of the trail
+          default: ""
+    
         region:
           type: string
           description: Region where the trail is located
+          default: ""
+    
         valley:
           type: string
           description: Valley where the trail is located
+          default: ""
+    
         difficulty:
           type: string
           enum: ["Easy", "Medium", "Difficult"]
-          default: Easy
+          default: "Easy"
           description: Difficulty level of the trail
+    
         lengthKm:
           type: number
           minimum: 0
           description: Length of the trail in kilometers
+          default: 0
+    
         duration:
           type: object
           properties:
@@ -687,29 +698,44 @@ components:
               minimum: 0
               maximum: 59
               default: 0
+    
         roadbook:
           type: string
           description: Route notes for the trail
+          default: ""
+    
         directions:
           type: string
           description: Directions to start the trail
+          default: ""
+    
         parking:
           type: string
           description: Parking information
+          default: ""
+    
         ascentM:
           type: number
           minimum: 0
           description: Total ascent in meters
+          default: 0
+    
         descentM:
           type: number
           minimum: 0
           description: Total descent in meters
+          default: 0
+    
         highestPointM:
           type: number
           description: Highest point of the trail in meters
+          default: 0
+    
         lowestPointM:
           type: number
           description: Lowest point of the trail in meters
+          default: 0
+    
         tags:
           type: array
           items:
@@ -721,22 +747,24 @@ components:
               - fauna
               - healthy_climate
               - round_trip
-              - cultural/historical_interest
+              - cultural_historical_interest
               - flora
               - out_and_back
               - refreshment_stops_available
-              - family-friendly
-              - multi-stage_route
+              - family_friendly
+              - multi_stage_route
               - summit_route
               - exposed_sections
               - insider_tip
               - ridge
-              - cableway_ascent/descent
+              - cableway_ascent_descent
               - suitable_for_strollers
               - secured_passages
-              - dog-friendly
+              - dog_friendly
               - accessibility
               - scrambling_required
+          description: List of descriptive tags for the trail
+    
         coordinates:
           type: object
           required: [DD]
@@ -756,14 +784,22 @@ components:
             DMS:
               type: object
               properties:
-                lat: { type: string }
-                lon: { type: string }
+                lat:
+                  type: string
+                lon:
+                  type: string
             UTM:
               type: object
               properties:
-                zone: { type: string }
-                easting: { type: number, minimum: 0 }
-                northing: { type: number, minimum: 0 }
+                zone:
+                  type: string
+                easting:
+                  type: number
+                  minimum: 0
+                northing:
+                  type: number
+                  minimum: 0
+    
         location:
           type: object
           properties:
@@ -778,53 +814,69 @@ components:
               minItems: 2
               maxItems: 2
               description: [longitude, latitude]
+          readOnly: true
+
         idAdmin:
           type: string
           description: ObjectId of the admin user who created the trail
+          readOnly: true
+
         createdAt:
           type: string
           format: date-time
+          readOnly: true
+
         updatedAt:
           type: string
           format: date-time
-
+          readOnly: true
+    
+    
     Report:
       type: object
       required:
         - idUser
         - idTrail
-        - titolo
         - testo
-        - state
       properties:
-        _id:
+        id:
           type: string
-          description: Unique identifier of the report
+          description: Unique identifier of the report (MongoDB ObjectId)
+          readOnly: true
+    
         idUser:
           type: string
           description: ObjectId of the user who created the report
+          readOnly: true
+    
         idTrail:
           type: string
-          description: ObjectId of the trail
-        titolo:
-          type: string
-          description: Title of the report
+          description: ObjectId of the trail the report refers to
+          readOnly: true
+    
         testo:
           type: string
           description: Text content of the report
+    
         state:
           type: string
-          description: State of the report
+          description: Current state of the report
           enum: ["New", "In progress", "Resolved"]
           default: "New"
+          readOnly: true
+    
         createdAt:
           type: string
           format: date-time
           description: Timestamp when the report was created
+          readOnly: true
+    
         updatedAt:
           type: string
           format: date-time
           description: Timestamp when the report was last updated
+          readOnly: true
+    
 
     Feedback:
       type: object
@@ -832,28 +884,39 @@ components:
         - idUser
         - valutazione
       properties:
-        _id:
+        id:
           type: string
-          description: Unique identifier of the feedback
+          description: Unique identifier of the feedback (MongoDB ObjectId)
+          readOnly: true
+    
         idUser:
           type: string
           description: ObjectId of the user who submitted the feedback
+          readOnly: true
+    
         idTrail:
           type: string
-          description: ObjectID of the trail
+          description: ObjectId of the trail the feedback refers to
+          readOnly: true
+    
         testo:
           type: string
-          description: Optional textual feedback
+          description: Optional textual feedback provided by the user
+    
         valutazione:
           type: number
           minimum: 1
           maximum: 5
-          description: Rating value from 1 to 5
+          description: Numeric rating value from 1 (worst) to 5 (best)
+    
         createdAt:
           type: string
           format: date-time
           description: Timestamp when the feedback was created
+          readOnly: true
+    
         updatedAt:
           type: string
           format: date-time
           description: Timestamp when the feedback was last updated
+          readOnly: true
