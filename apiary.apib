@@ -16,10 +16,9 @@ paths:
   /authentications:
     post:
       summary: Authenticate a user
-      description: >
+      description: |
         Authenticates a user using their email and password credentials.  
-        If authentication is successful, a JSON Web Token (JWT) is returned,  
-        which can be used to authorize subsequent requests.
+        If authentication is successful, a JSON Web Token (JWT) is returned, which can be used to authorize subsequent requests.
       requestBody:
         description: >
           User credentials must be provided in the request body as JSON.
@@ -84,7 +83,7 @@ paths:
   /trails:
     get:
       summary: View the trails
-      description: >
+      description: |
         Get the list of trails.  
         It is possible to filter trails by:
         - id: /trails?id={id}
@@ -96,6 +95,7 @@ paths:
         - maxLength: /trails?maxLength={maxLength}
         - minDuration: /trails?minDuration={minDuration}
         - maxDuration: /trails?maxDuration={maxDuration}
+          
         You can combine multiple filters using the "&" symbol, for example:  
         "/trails?region=Trentino_Alto-Adige&valley=Val_di_Non&difficulty=Medium"
       parameters:
@@ -280,12 +280,13 @@ paths:
   /trails/near:
     get:
       summary: Find trails near geographic coordinates
-      description: >
+      description: |
         Returns a list of trails located within a given radius from specific GPS coordinates.  
         Parameters:
         - lat: latitude in decimal degrees  
         - lon: longitude in decimal degrees  
-        - radius: search radius in kilometers  
+        - radius: search radius in kilometers      
+        
         Example usage: "/trails/near?lat=46.07&lon=11.12&radius=10"
       parameters:
         - name: lat
@@ -801,19 +802,19 @@ components:
   securitySchemes:
   
     XAccessTokenHeaderAuth:
-      description: >
-        The API authentication.
-        The API key must be passed in the header 'x-access-token'.
-        The API key must be a valid JWT token.
+      description: |
+        The API authentication.  
+        The API key must be passed in the header 'x-access-token'.  
+        The API key must be a valid JWT token.  
       type: apiKey
       in: header
       name: x-access-token
     
     TokenQueryAuth:
-      description: >
-        The API authentication.
-        The API key must be passed in the query string 'token'.
-        The API key must be a valid JWT token.
+      description: |
+        The API authentication.  
+        The API key must be passed in the query string 'token'.  
+        The API key must be a valid JWT token.  
       type: apiKey
       in: query
       name: token
