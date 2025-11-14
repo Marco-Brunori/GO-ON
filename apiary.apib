@@ -849,11 +849,11 @@ components:
           default: base
           description: Role of the user
 
-        favorites:
+        favourites:
           type: array
           items:
             type: string
-            description: ObjectId of a favorite Trail
+            description: ObjectId of a favourite Trail
 
         createdAt:
           type: string
@@ -1107,6 +1107,7 @@ components:
       type: object
       required:
         - idUser
+        - idTrail
         - valutazione
       properties:
         id:
