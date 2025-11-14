@@ -1,57 +1,5 @@
 import mongoose from "mongoose";
 
-////////////////////////////////////
-//////////// Versione 1 ////////////
-////////////////////////////////////
-
-/*
-const trailSchema = new mongoose.Schema({
-  _id: String,
-  title: String,
-  description: String,
-  region: String,
-  valley: String,
-  difficulty: { type: String, enum: ["Easy", "Medium", "Difficult"] },
-  lengthKm: Number,
-  duration: {
-    hours: { type: Number, min: 0 },
-    minutes: { type: Number, min: 0, max: 59 }
-  },
-  roadbook: String,
-  directions: String,
-  parking: String,
-  ascentM: Number,
-  descentM: Number,
-  highestPointM: Number,
-  lowestPointM: Number,
-  tags: { 
-    type: String, 
-    enum: ["linear_route", "scenic", "geological_highlights", "fauna", "healthy_climate", "round_trip", 
-           "cultural/historical_interest", "flora", "out_and_back", "refreshment_stops_available", 
-           "family-friendly", "multi-stage_route", "summit_route", "exposed_sections", "insider_tip", 
-           "ridge", "cableway_ascent/descent", "suitable_for_strollers", "secured_passages", "dog-friendly",
-           "accessibility", "scrambling_required"] 
-  },
-  coordinates: {
-    DD: {
-      lat: Number,
-      lon: Number
-    },
-    DMS: {
-      lat: String,
-      lon: String
-    },
-    UTM: {
-      zone: String,
-      easting: Number,
-      northing: Number
-    } 
-  },
-});
-
-export const Trail = mongoose.model("Trail", trailSchema);
-*/
-
 /* 
 Attenzione: 
 1. I file gpx e le varie foto verranno salvate sempre nella cartella /uploads/{id}/gpx e /uploads/{id}/photos. Quindi non serve avere un campo
@@ -59,57 +7,85 @@ Attenzione:
 2. MongoDB crea automaticamente un ObjectID, quindi non serve inserire un campo id stringa
 */
 
-////////////////////////////////////
-//////////// Versione 2 ////////////
-////////////////////////////////////
-
 const { Schema } = mongoose;
 
 const validTags = [
   "linear_route", "scenic", "geological_highlights", "fauna", "healthy_climate",
-  "round_trip", "cultural/historical_interest", "flora", "out_and_back",
-  "refreshment_stops_available", "family-friendly", "multi-stage_route",
+  "round_trip", "cultural_historical_interest", "flora", "out_and_back",
+  "refreshment_stops_available", "family_friendly", "multi_stage_route",
   "summit_route", "exposed_sections", "insider_tip", "ridge",
-  "cableway_ascent/descent", "suitable_for_strollers", "secured_passages",
-  "dog-friendly", "accessibility", "scrambling_required"
+  "cableway_ascent_descent", "suitable_for_strollers", "secured_passages",
+  "dog_friendly", "accessibility", "scrambling_required"
 ];
 
 const coordinatesSchema = new Schema({
   DD: {
-    lat: { type: Number, required: true, min: -90, max: 90 },
-    lon: { type: Number, required: true, min: -180, max: 180 }
+    lat: { 
+      type: Number,
+      required: true, 
+      min: -90, 
+      max: 90 
+    },
+    lon: { 
+      type: Number, 
+      required: true, 
+      min: -180, 
+      max: 180 
+    }
   },
   DMS: {
-    lat: { type: String }, 
-    lon: { type: String } 
+    lat: { 
+      type: String 
+    }, 
+    lon: { 
+      type: String 
+    } 
   },
   UTM: {
-    zone: { type: String },
-    easting: { type: Number, min: 0 },
-    northing: { type: Number, min: 0 }
+    zone: { 
+      type: String 
+    },
+    easting: { 
+      type: Number, 
+      min: 0 
+    },
+    northing: { 
+      type: Number, 
+      min: 0 
+    }
   }
 }, { _id: false });
 
 const durationSchema = new Schema({
-  hours: { type: Number, min: 0, default: 0 },
-  minutes: { type: Number, min: 0, max: 59, default: 0 }
+  hours: { 
+    type: Number, 
+    min: 0, 
+    default: 0 
+  },
+  minutes: { 
+    type: Number, 
+    min: 0, 
+    max: 59, 
+    default: 0 
+  }
 }, { _id: false });
 
 const trailSchema = new Schema({
   title: {
     type: String,
-    required: true,
+    required: true
   },
   description: {
     type: String,
+    default: ""
   },
   region: {
     type: String,
-    required: true,
+    default: ""
   },
   valley: {
     type: String,
-    required: true,
+    default: ""
   },
   difficulty: {
     type: String,
@@ -118,37 +94,53 @@ const trailSchema = new Schema({
   },
   lengthKm: {
     type: Number,
+    default: 0,
     min: 0
   },
   duration: {
     type: durationSchema,
-    default: () => ({ hours: 0, minutes: 0 })
+    default: () => ({     // bisogna mettere il default, perchè altrimenti non crea proprio l'oggetto e lo mette undefined
+      hours: 0,
+      minutes: 0 
+    })
   },
   roadbook: { 
     type: String,  
+    default: ""
   },
   directions: { 
-    type: String, 
+    type: String,
+    default: "" 
   },
   parking: { 
-    type: String,  
+    type: String,
+    default: ""  
   },
   ascentM: { 
     type: Number,
+    default: 0,
     min: 0 
   },
   descentM: { 
     type: Number, 
+    default: 0,
     min: 0 
   },
   highestPointM: { 
-    type: Number 
+    type: Number,
+    default: 0,
+    min: 0
   },
   lowestPointM: { 
-    type: Number 
+    type: Number,
+    default: 0,
+    min: 0 
   },
   tags: {
-    type: [{ type: String, enum: validTags }],
+    type: [{ 
+        type: String, 
+        enum: validTags 
+      }],
     default: []
   },
   coordinates: {
@@ -163,7 +155,8 @@ const trailSchema = new Schema({
       default: "Point"
     },
     coordinates: {
-      type: [Number], // [lon, lat]
+      type: [Number],         // [lon, lat]
+      index: "2dsphere",      // altrimenti non funzionano le query 
       validate: {
         validator: function (v) {
           return Array.isArray(v) && v.length === 2 && (v[0] >= -180 && v[0] <= 180) && (v[1] >= -90 && v[1] <= 90);
@@ -189,8 +182,11 @@ const trailSchema = new Schema({
   toObject: { virtuals: true }
 });
 
+trailSchema.virtual("id").get(function () {
+  return this._id.toHexString();
+});
+
 // INDICI
-trailSchema.index({ _id: 1 });
 trailSchema.index({ valley: 1 });
 trailSchema.index({ difficulty: 1 });
 trailSchema.index({ lengthKm: 1 });
@@ -203,7 +199,6 @@ trailSchema.index({ location: "2dsphere" });
 trailSchema.pre("save", async function (next) {
   // this è il documento
   try {
-
     // Vincolo di integrità referenziale per idAdmin
     const userExists = await mongoose.model("User").exists({ _id: this.idAdmin });
     if (!userExists) {
@@ -229,8 +224,12 @@ trailSchema.pre("save", async function (next) {
     }
 
     // Sanity checks: ascent/descent non negativi e coerenza semplice
-    if (this.ascentM != null && this.ascentM < 0) this.ascentM = Math.abs(this.ascentM);
-    if (this.descentM != null && this.descentM < 0) this.descentM = Math.abs(this.descentM);
+    if(this.ascentM != null && this.ascentM < 0) {
+      this.ascentM = Math.abs(this.ascentM);
+    }
+    if(this.descentM != null && this.descentM < 0) {
+      this.descentM = Math.abs(this.descentM);
+    }
     next();
   } catch (err) {
     next(err);

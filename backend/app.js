@@ -2,14 +2,17 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from "cors";
 import multer from "multer";
-import { v4 as uuidv4 } from "uuid";
 import fs from "fs";
 import path from "path";
 import dotenv from "dotenv";
 import { connectToMongo } from "./db.js";
-import { Trail } from "./models/Trail.js";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+
+import trailRouter from "./routes/Trail.js";
+import reportRouter from "./routes/Report.js";
+import feedbacksRouter from "./routes/Feedback.js";
+import usersRouter from "./routes/User.js";
 
 dotenv.config();
 
@@ -21,6 +24,7 @@ app.use(express.json());
 
 await connectToMongo();
 
+/* DA FARE:
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const uploadDir = path.join(__dirname, "uploads");
@@ -38,41 +42,20 @@ const storage = multer.diskStorage({
   }
 });
 const upload = multer({ storage });
+*/
 
-////////////////////////////////////////////////////////////////////////////////////////
-/////// Routes /////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////
+/////// Routes ///////
+//////////////////////
 app.get('/', (req, res) => {
   res.send('Server Funzionante')
 })
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/trails", trailRouter);
+app.use("/reports", reportRouter);
+app.use("/feedbacks", feedbacksRouter);
+app.use("/users", usersRouter);
 
-app.post('/trails', upload.single('gpxFile'), async (req, res) => {
-  try {
-    const newTrail = new Trail({
-      ...req.body,
-      gpxFilePath: req.file.path
-    });
-    await newTrail.save();
-    res.status(201).json(newTrail);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-app.get('/trails', async (req, res) => {
-  try {
-    const trails = await Trail.find();
-    res.json(trails);
-  } catch (err) {
-    res.status(500).json({ error: "Errore nel recupero dei trail" });
-  }
-});
-
-app.use((req, res) => {
-  res.status(404).sendFile('./views/404.html', { root: __dirname })
-})
-////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////
 
 app.listen(PORT);

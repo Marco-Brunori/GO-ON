@@ -26,26 +26,28 @@ const reportSchema = new Schema(
         }
       }
     },
-    titolo: {
-      type: String,
-      required: true
-    },
     testo: {
       type: String,
       required: true
     },
     state: {
       type: String,
-      required: true,
       enum: ["New", "In progress", "Resolved"],
       default: "New" 
     } 
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
   }
 );
 
+reportSchema.virtual("id").get(function () {
+  return this._id.toHexString();
+});
+
 reportSchema.index({ idUser: 1 });
+reportSchema.index({ idTrail: 1 });
 
 export const Report = mongoose.model("Report", reportSchema);
