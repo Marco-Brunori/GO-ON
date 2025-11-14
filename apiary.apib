@@ -85,7 +85,7 @@ paths:
     get:
       summary: View the trails
       description: >
-        Gets the list of trails.  
+        Get the list of trails.  
         It is possible to filter trails by:
         - id: /trails?id={id}
         - region: /trails?region={region}
@@ -177,7 +177,7 @@ paths:
       description: Creates a new trail in the system.
       security:
         - TokenQueryAuth: []
-          XAccessTokenHeaderAuth: []
+        - XAccessTokenHeaderAuth: []
       requestBody:
         required: true
         content:
@@ -241,7 +241,7 @@ paths:
       description: Updates an existing trail by its ID.
       security:
         - TokenQueryAuth: []
-          XAccessTokenHeaderAuth: []
+        - XAccessTokenHeaderAuth: []
       parameters:
         - name: id
           in: path
@@ -264,7 +264,7 @@ paths:
       description: Deletes a trail by its unique ID.
       security:
         - TokenQueryAuth: []
-          XAccessTokenHeaderAuth: []
+        - XAccessTokenHeaderAuth: []
       parameters:
         - name: id
           in: path
@@ -283,7 +283,7 @@ paths:
       description: Creates a new report for a trail.
       security:
         - TokenQueryAuth: []
-          XAccessTokenHeaderAuth: []
+        - XAccessTokenHeaderAuth: []
       requestBody:
         required: true
         content:
@@ -304,7 +304,7 @@ paths:
       description: Returns a list of all reports.
       security:
         - TokenQueryAuth: []
-          XAccessTokenHeaderAuth: []
+        - XAccessTokenHeaderAuth: []
       responses:
         '200':
           description: List of reports
@@ -320,7 +320,7 @@ paths:
       description: Returns a single report by its unique ID.
       security:
         - TokenQueryAuth: []
-          XAccessTokenHeaderAuth: []
+        - XAccessTokenHeaderAuth: []
       parameters:
         - name: id
           in: path
@@ -341,7 +341,7 @@ paths:
       description: Deletes a report by its unique ID.
       security:
         - TokenQueryAuth: []
-          XAccessTokenHeaderAuth: []
+        - XAccessTokenHeaderAuth: []
       parameters:
         - name: id
           in: path
@@ -360,7 +360,7 @@ paths:
       description: Returns a list of reports associated with a specific trail.
       security:
         - TokenQueryAuth: []
-          XAccessTokenHeaderAuth: []
+        - XAccessTokenHeaderAuth: []
       parameters:
         - name: idTrail
           in: path
@@ -380,13 +380,13 @@ paths:
         '404':
           description: Trail not found or no reports available
   
-  /users/reports/{idUser}:
+  /reports/user/{idUser}:
     get:
       summary: Get reports created by a specific user
       description: Returns a list of reports created by a specific user.
       security:
         - TokenQueryAuth: []
-          XAccessTokenHeaderAuth: []
+        - XAccessTokenHeaderAuth: []
       parameters:
         - name: idUser
           in: path
@@ -412,7 +412,7 @@ paths:
       description: Creates a new feedback for a trail.
       security:
         - TokenQueryAuth: []
-          XAccessTokenHeaderAuth: []
+        - XAccessTokenHeaderAuth: []
       requestBody:
         required: true
         content:
@@ -475,7 +475,7 @@ paths:
       description: Updates an existing feedback by its ID.
       security:
         - TokenQueryAuth: []
-          XAccessTokenHeaderAuth: []
+        - XAccessTokenHeaderAuth: []
       parameters:
         - name: id
           in: path
@@ -502,7 +502,7 @@ paths:
       description: Deletes a feedback by its unique ID.
       security:
         - TokenQueryAuth: []
-          XAccessTokenHeaderAuth: []
+        - XAccessTokenHeaderAuth: []
       parameters:
         - name: id
           in: path
@@ -521,7 +521,7 @@ paths:
       description: Returns a list of feedbacks associated with a specific trail.
       security:
         - TokenQueryAuth: []
-          XAccessTokenHeaderAuth: []
+        - XAccessTokenHeaderAuth: []
       parameters:
         - name: idTrail
           in: path
@@ -541,13 +541,13 @@ paths:
         '404':
           description: Trail not found or no feedbacks available
   
-  /users/feedbacks/{idUser}:
+  /feedbacks/user/{idUser}:
     get:
       summary: Get feedbacks created by a specific user
       description: Returns a list of feedbacks submitted by a specific user.
       security:
         - TokenQueryAuth: []
-          XAccessTokenHeaderAuth: []
+        - XAccessTokenHeaderAuth: []
       parameters:
         - name: idUser
           in: path
@@ -567,8 +567,188 @@ paths:
         '404':
           description: User not found
   
-  
-  
+  /users:
+    post:
+      summary: Create a new user
+      description: Creates a new user in the system.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+            example:
+              username: "mario"
+              email: "mario.rossi@unitn.it"
+              role: "base"
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '409':
+          description: Email already in use
+
+    get:
+      summary: Get all users
+      description: Returns a list of all users.
+      security:
+        - TokenQueryAuth: []
+        - XAccessTokenHeaderAuth: []
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+
+  /users/{id}:
+    get:
+      summary: Get a user by ID
+      description: Returns a single user by ID.
+      security:
+        - TokenQueryAuth: []
+        - XAccessTokenHeaderAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+
+    put:
+      summary: Update a user
+      description: Updates an existing user by ID.
+      security:
+        - TokenQueryAuth: []
+        - XAccessTokenHeaderAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: User updated successfully
+        '404':
+          description: User not found
+
+    delete:
+      summary: Delete a user
+      description: Permanently deletes a user by ID.
+      security:
+        - TokenQueryAuth: []
+        - XAccessTokenHeaderAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: User deleted successfully
+        '404':
+          description: User not found
+
+  /users/favourites:
+    post:
+      summary: Add a trail to favourites
+      description: Add a trail to the favourites list of a user.
+      security:
+        - TokenQueryAuth: []
+        - XAccessTokenHeaderAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - idUser
+                - idTrail
+              properties:
+                idUser:
+                  type: string
+                idTrail:
+                  type: string
+      responses:
+        '200':
+          description: Trail added to favourites
+        '404':
+          description: User or trail not found
+        '409':
+          description: Trail already in favourites
+
+  /users/{idUser}/favourites/{idTrail}:
+    delete:
+      summary: Remove a trail from favourites
+      description: Removes a trail from the user's favourites list.
+      security:
+        - TokenQueryAuth: []
+        - XAccessTokenHeaderAuth: []
+      parameters:
+        - name: idUser
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: idTrail
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Trail removed from favourites
+        '404':
+          description: Favourite trail not found
+
+  /users/favourites/{idUser}:
+    get:
+      summary: Get favourites list of a user
+      description: Returns all favourite trails of a user.
+      security:
+        - TokenQueryAuth: []
+        - XAccessTokenHeaderAuth: []
+      parameters:
+        - name: idUser
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of favourite trails
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '404':
+          description: User not found
 
 
 components:
