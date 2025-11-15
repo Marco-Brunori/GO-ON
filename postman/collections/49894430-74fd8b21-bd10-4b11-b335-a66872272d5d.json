@@ -256,13 +256,100 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"title\": \"The chromatic contrast of Corno Nero and Corno Bianco\",\r\n  \"description\": \"Extremely panoramic hiking loop, which allows you to admire the Lagorai chain, the lower Val di Fiemme and to see the Val di Cembra in the distance. We are in Passo Oclini, where the road stops and you can only aim upwards towards the sky. The itinerary proposes the ascent of both peaks that frame the pass, but it is possible to go up just on one of them. The names of the two peaks say a lot about their composition: the Corno Nero is made of porphyry and dark rocks of volcanic origin, while the Corno Bianco stands out with its white dolomite. For this reason the two peaks are so different.\",\r\n  \"region\": \"Trentino Alto-Adige\",\r\n  \"valley\": \"Val di Fiemme\",\r\n  \"difficulty\": \"Difficult\",\r\n  \"lengthKm\": 12.6,\r\n  \"duration\": {\r\n    \"hours\": 6,\r\n    \"minutes\": 0\r\n  },\r\n  \"roadbook\": \"At Passo Oclini (1.989 m), just behind Hotel Schwarzhorn, take trail No. 502 first rising steeply and then continuing on a more even scenic route along the ridge to the summit of Corno Nero (2.491 m). From the summit take trail No. 502, with its spectacular route along the crest, to Monte Palone, and then descend to Baito di Cugola (1.900 m). A brief ascent to the right leads to Passo Cugola. From here take trail No. 14 in the direction of Malga Cugola Bassa (Alpine dairy). A good forest road (with markings for trail No. 14), leads to Malga Corandin – Gurndin Alm (1.952 m). From here there are two options: return to Passo Oclini on the easy unsurfaced road to the right (30 minutes), or turn left on this same track after 100 metres and take trail H, following directions for Corno Bianco continuing along this path to the summit of the mountain (2.317 m). From the top of Corno Bianco, backtrack down the route taken on the way up and then branch left, still on trail H, descending directly to Passo Oclini (1 hour 30 minutes from Malga Corandin – Gurndin Alm).\",\r\n  \"directions\": \"From Cavalese take first the road to Passo Lavazè and then continue to Passo Oclini.\",\r\n  \"parking\": \"Parking possibility at Passo Oclini.\",\r\n  \"ascentM\": 950,\r\n  \"descentM\": 950,\r\n  \"highestPointM\": 2440,\r\n  \"lowestPointM\": 1834,\r\n  \"tags\": [\r\n    \"refreshment_stops_available\",\r\n    \"scenic\",\r\n    \"round_trip\",\r\n    \"geological_highlights\",\r\n    \"flora\", \r\n    \"summit_route\"\r\n  ],\r\n  \"coordinates\": {\r\n    \"DD\": {\r\n      \"lat\": 46.347447,\r\n      \"lon\": 11.453642\r\n    },\r\n    \"DMS\": {\r\n      \"lat\": \"46°20'50.8\\\"N\",\r\n      \"lon\": \"11°27'13.1\\\"E\"\r\n    },\r\n    \"UTM\": {\r\n      \"zone\": \"32T\",\r\n      \"easting\": 688795,\r\n      \"northing\": 5135578\r\n    }\r\n  },\r\n  \"idAdmin\": \"691856153d4d10beecc227b0\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "The chromatic contrast of Corno Nero and Corno Bianco",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Extremely panoramic hiking loop, which allows you to admire the Lagorai chain, the lower Val di Fiemme and to see the Val di Cembra in the distance. We are in Passo Oclini, where the road stops and you can only aim upwards towards the sky. The itinerary proposes the ascent of both peaks that frame the pass, but it is possible to go up just on one of them. The names of the two peaks say a lot about their composition: the Corno Nero is made of porphyry and dark rocks of volcanic origin, while the Corno Bianco stands out with its white dolomite. For this reason the two peaks are so different.",
+									"type": "text"
+								},
+								{
+									"key": "region",
+									"value": "Trentino Alto-Adige",
+									"type": "text"
+								},
+								{
+									"key": "valley",
+									"value": "Val di Fiemme",
+									"type": "text"
+								},
+								{
+									"key": "difficulty",
+									"value": "Difficult",
+									"type": "text"
+								},
+								{
+									"key": "lengthKm",
+									"value": "12.6",
+									"type": "text"
+								},
+								{
+									"key": "duration",
+									"value": "{\"hours\":6,\"minutes\":0}",
+									"type": "text"
+								},
+								{
+									"key": "roadbook",
+									"value": "At Passo Oclini (1.989 m), just behind Hotel Schwarzhorn, take trail No. 502 first rising steeply and then continuing on a more even scenic route along the ridge to the summit of Corno Nero (2.491 m). From the summit take trail No. 502, with its spectacular route along the crest, to Monte Palone, and then descend to Baito di Cugola (1.900 m). A brief ascent to the right leads to Passo Cugola. From here take trail No. 14 in the direction of Malga Cugola Bassa (Alpine dairy). A good forest road (with markings for trail No. 14), leads to Malga Corandin – Gurndin Alm (1.952 m). From here there are two options: return to Passo Oclini on the easy unsurfaced road to the right (30 minutes), or turn left on this same track after 100 metres and take trail H, following directions for Corno Bianco continuing along this path to the summit of the mountain (2.317 m). From the top of Corno Bianco, backtrack down the route taken on the way up and then branch left, still on trail H, descending directly to Passo Oclini (1 hour 30 minutes from Malga Corandin – Gurndin Alm).",
+									"type": "text"
+								},
+								{
+									"key": "directions",
+									"value": "From Cavalese take first the road to Passo Lavazè and then continue to Passo Oclini.",
+									"type": "text"
+								},
+								{
+									"key": "parking",
+									"value": "Parking possibility at Passo Oclini.",
+									"type": "text"
+								},
+								{
+									"key": "ascentM",
+									"value": "950",
+									"type": "text"
+								},
+								{
+									"key": "descentM",
+									"value": "950",
+									"type": "text"
+								},
+								{
+									"key": "highestPointM",
+									"value": "2440",
+									"type": "text"
+								},
+								{
+									"key": "lowestPointM",
+									"value": "1834",
+									"type": "text"
+								},
+								{
+									"key": "tags",
+									"value": "[\"refreshment_stops_available\",\"scenic\",\"round_trip\",\"geological_highlights\",\"flora\",\"summit_route\"]",
+									"type": "text"
+								},
+								{
+									"key": "coordinates",
+									"value": "{\"DD\":{\"lat\":46.347447,\"lon\":11.453642},\"DMS\":{\"lat\":\"46°20'50.8\\\"N\",\"lon\":\"11°27'13.1\\\"E\"},\"UTM\":{\"zone\":\"32T\",\"easting\":688795,\"northing\":5135578}}",
+									"type": "text"
+								},
+								{
+									"key": "idAdmin",
+									"value": "691856153d4d10beecc227b0",
+									"type": "text"
+								},
+								{
+									"key": "gpx",
+									"type": "file",
+									"uuid": "20a214a3-2385-44e1-8bc3-922e6dba3c04",
+									"src": "postman-cloud:///1f0c2371-c5fb-46f0-8ec0-0a8d8638cc26"
 								}
-							}
+							]
 						},
 						"url": {
 							"raw": "http://localhost:3000/trails",
@@ -466,7 +553,7 @@
 							"raw": "{\r\n  \"title\": \"Loop with ascent to Corno di Tres\",\r\n  \"description\": \"Trekking to Corno di Tres is one of the routes to do when you are in Trentino. This medium difficulty walk starts from Rifugio Predaia and reaches the incredibly panoramic summit of Corno di Tres! Those who want can continue by making a loop along the beautiful mountain ridge that divides the Val d'Adige from the Val di Non. Alternatively, you just go down the same way you came up.\",\r\n  \"region\": \"Trentino Alto-Adige\",\r\n  \"valley\": \"Val di Non\",\r\n  \"difficulty\": \"Medium\",\r\n  \"lengthKm\": 9.7,\r\n  \"duration\": {\r\n    \"hours\": 3,\r\n    \"minutes\": 30\r\n  },\r\n  \"roadbook\": \"From Rifugio Predaia take the dirt road (trail marker 503) which crosses, keeping level, meadows and young woods testifying to the advance of nature on land once used by man...\",\r\n  \"directions\": \"Start at Alagna Valsesia\",\r\n  \"parking\": \"At Rifugio Predaia – “Ai Todès ci\",\r\n  \"ascentM\": 520,\r\n  \"descentM\": 520,\r\n  \"highestPointM\": 1811,\r\n  \"lowestPointM\": 1404,\r\n  \"tags\": [\"round_trip\", \"scenic\", \"refreshment_stops_available\", \"summit_route\"],\r\n  \"coordinates\": {\r\n    \"DD\": {\r\n      \"lat\": 46.315155,\r\n      \"lon\": 11.153312\r\n    },\r\n    \"DMS\": {\r\n      \"lat\": \"46°18'54.6\\\"N\",\r\n      \"lon\": \"11°09'11.9\\\"E\"\r\n    },\r\n    \"UTM\": {\r\n      \"zone\": \"32T\",\r\n      \"easting\": 665785,\r\n      \"northing\": 5131317\r\n    }\r\n  },\r\n  \"idAdmin\": \"691856153d4d10beecc227b0\"\r\n}\r\n"
 						},
 						"url": {
-							"raw": "http://localhost:3000/trails/691873e03d4d10beecc227d2",
+							"raw": "http://localhost:3000/trails/69187afb3d4d10beecc227e3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -474,7 +561,7 @@
 							"port": "3000",
 							"path": [
 								"trails",
-								"691873e03d4d10beecc227d2"
+								"69187afb3d4d10beecc227e3"
 							]
 						}
 					},
