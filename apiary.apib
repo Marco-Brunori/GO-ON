@@ -86,7 +86,6 @@ paths:
       description: |
         Get the list of trails.  
         It is possible to filter trails by:
-        - id: /trails?id={id}
         - region: /trails?region={region}
         - valley: /trails?valley={valley}
         - difficulty: /trails?difficulty={difficulty}
@@ -261,7 +260,15 @@ paths:
           description: Trail not found
     delete:
       summary: Delete a trail
-      description: Deletes a trail by its unique ID.
+      description: |
+        Deletes a trail by its unique ID.  
+        This operation performs a cascading cleanup:
+        1. All **Feedback** documents with "idTrail = {id}" are deleted.  
+        2. All **Report** documents with "idTrail = {id}" are deleted.  
+        3. The trail is removed from the "favourites" array of all **User** documents (atomic pull via "$pull").  
+        4. The trail document is deleted.  
+        5. The server-side files directory "/uploads/{id}" (if present) is removed.
+        If any step fails a 500 is returned. If the trail does not exist a 404 is returned.
       security:
         - TokenQueryAuth: []
         - XAccessTokenHeaderAuth: []
@@ -271,11 +278,14 @@ paths:
           required: true
           schema:
             type: string
+          description: Trail ID
       responses:
         '204':
-          description: Trail deleted successfully
+          description: Trail deleted successfully (and related feedbacks/reports removed, favourites cleaned, files deleted)
         '404':
           description: Trail not found
+        '500':
+          description: Server error while deleting trail or related resources
           
   /trails/near:
     get:
@@ -323,6 +333,32 @@ paths:
                   $ref: '#/components/schemas/Trail'
         '400':
           description: Invalid coordinates or radius provided
+          
+  /trails/{id}/upload/gpx:
+    get:
+      summary: Download GPX file of a trail
+      description: |
+        Downloads the GPX track file associated with the specified trail.
+        Returns the file as a downloadable attachment.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Trail ID
+      responses:
+        '200':
+          description: GPX file downloaded successfully
+          content:
+            application/gpx+xml:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Trail not found or GPX file not available
+        '500':
+          description: Server error while retrieving the GPX file
   
   /reports:
     post:
@@ -456,7 +492,10 @@ paths:
   /feedbacks:
     post:
       summary: Create a new feedback
-      description: Creates a new feedback for a trail.
+      description: |
+        Creates a new feedback for a trail.
+        Each user can only submit ONE feedback per trail.
+        If a feedback already exists, the API returns HTTP 409.
       security:
         - TokenQueryAuth: []
         - XAccessTokenHeaderAuth: []
@@ -466,9 +505,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Feedback'
-            example:
-              testo: "Beautiful trail, well maintained."
-              valutazione: 5
       responses:
         '201':
           description: Feedback created successfully
@@ -476,6 +512,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Feedback'
+        '409':
+          description: Feedback already exists for this trail by the same user
+
     get:
       summary: Get all feedbacks
       description: Returns a list of all feedbacks, optionally filtered by rating.
@@ -703,7 +742,9 @@ paths:
 
     delete:
       summary: Delete a user
-      description: Permanently deletes a user by ID.
+      description: |
+        Permanently deletes a user by ID.
+        When a user is deleted, all their feedbacks and reports are automatically deleted.
       security:
         - TokenQueryAuth: []
         - XAccessTokenHeaderAuth: []
@@ -715,7 +756,7 @@ paths:
             type: string
       responses:
         '204':
-          description: User deleted successfully
+          description: User and related feedbacks & reports deleted successfully
         '404':
           description: User not found
 
