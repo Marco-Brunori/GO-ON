@@ -707,7 +707,7 @@
 							"raw": "{\r\n  \"idUser\": \"69185bab3d4d10beecc227bf\",\r\n  \"idTrail\": \"691860c53d4d10beecc227ca\",\r\n  \"valutazione\": 5,\r\n  \"commento\": \"Bellissimo percorso e panorama da mozzafiato!\"\r\n}"
 						},
 						"url": {
-							"raw": "http://localhost:3000/feedbacks/6918802c6fc2e444a98a51cc",
+							"raw": "http://localhost:3000/feedbacks/6918851d6fc2e444a98a51e3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -715,7 +715,7 @@
 							"port": "3000",
 							"path": [
 								"feedbacks",
-								"6918802c6fc2e444a98a51cc"
+								"6918851d6fc2e444a98a51e3"
 							]
 						}
 					},
