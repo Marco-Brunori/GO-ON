@@ -866,7 +866,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/reports/691888536fc2e444a98a51f0",
+							"raw": "http://localhost:3000/reports/69188b146fc2e444a98a5200",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -874,7 +874,7 @@
 							"port": "3000",
 							"path": [
 								"reports",
-								"691888536fc2e444a98a51f0"
+								"69188b146fc2e444a98a5200"
 							]
 						}
 					},
