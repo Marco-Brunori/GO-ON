@@ -1,0 +1,850 @@
+{
+	"info": {
+		"_postman_id": "49894430-74fd8b21-bd10-4b11-b335-a66872272d5d",
+		"name": "GO-ON APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "\"/\"",
+					"id": "49894430-d8ce755c-3b35-4264-9b5d-6d23ec5144a7",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"admin\",\r\n  \"email\": \"GO-ON.admin@gmail.com\",\r\n  \"role\": \"admin\",\r\n  \"favourites\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "\"/\"",
+					"id": "49894430-965878df-efbe-41ae-aa1a-4722dc1aca34",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "\"/:id\"",
+					"id": "49894430-50fa5791-2930-474b-9635-5476173b962c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/users/691856153d4d10beecc227b0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"691856153d4d10beecc227b0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/:id",
+					"id": "49894430-e8b12e6b-08ff-4c7a-8d72-2c1a3e5c502c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/69185bab3d4d10beecc227bf",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"69185bab3d4d10beecc227bf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "\"/:id\"",
+					"id": "49894430-41283b74-c797-4c73-be19-6f5547eadd70",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/69185bbb3d4d10beecc227c5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"69185bbb3d4d10beecc227c5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "\"/favourites/:id\"",
+					"id": "49894430-077f3bdb-29b2-453d-a429-7461938db9a0",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": \"69185bab3d4d10beecc227bf\",\r\n  \"idTrail\": \"691860c53d4d10beecc227ca\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/favourites",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"favourites"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "\"/:idUser/favourites/:idTrail\"",
+					"id": "49894430-9e4f912b-48f1-4bf7-a036-e22adf92746b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/users/69185bab3d4d10beecc227bf/favourites/691860c53d4d10beecc227ca",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"69185bab3d4d10beecc227bf",
+								"favourites",
+								"691860c53d4d10beecc227ca"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "\"/favourites/:iduser\"",
+					"id": "49894430-61bca676-a8d5-441c-867d-13d34fc26b06",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/users/favourites/69185bab3d4d10beecc227bf",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"favourites",
+								"69185bab3d4d10beecc227bf"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "49894430-1ef55817-1cae-40e9-8731-2fefc8084d7d"
+		},
+		{
+			"name": "Trail",
+			"item": [
+				{
+					"name": "\"/\"",
+					"id": "49894430-4f71d037-d724-4b4f-af12-7a1a0a47ca73",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"The chromatic contrast of Corno Nero and Corno Bianco\",\r\n  \"description\": \"Extremely panoramic hiking loop, which allows you to admire the Lagorai chain, the lower Val di Fiemme and to see the Val di Cembra in the distance. We are in Passo Oclini, where the road stops and you can only aim upwards towards the sky. The itinerary proposes the ascent of both peaks that frame the pass, but it is possible to go up just on one of them. The names of the two peaks say a lot about their composition: the Corno Nero is made of porphyry and dark rocks of volcanic origin, while the Corno Bianco stands out with its white dolomite. For this reason the two peaks are so different.\",\r\n  \"region\": \"Trentino Alto-Adige\",\r\n  \"valley\": \"Val di Fiemme\",\r\n  \"difficulty\": \"Difficult\",\r\n  \"lengthKm\": 12.6,\r\n  \"duration\": {\r\n    \"hours\": 6,\r\n    \"minutes\": 0\r\n  },\r\n  \"roadbook\": \"At Passo Oclini (1.989 m), just behind Hotel Schwarzhorn, take trail No. 502 first rising steeply and then continuing on a more even scenic route along the ridge to the summit of Corno Nero (2.491 m). From the summit take trail No. 502, with its spectacular route along the crest, to Monte Palone, and then descend to Baito di Cugola (1.900 m). A brief ascent to the right leads to Passo Cugola. From here take trail No. 14 in the direction of Malga Cugola Bassa (Alpine dairy). A good forest road (with markings for trail No. 14), leads to Malga Corandin – Gurndin Alm (1.952 m). From here there are two options: return to Passo Oclini on the easy unsurfaced road to the right (30 minutes), or turn left on this same track after 100 metres and take trail H, following directions for Corno Bianco continuing along this path to the summit of the mountain (2.317 m). From the top of Corno Bianco, backtrack down the route taken on the way up and then branch left, still on trail H, descending directly to Passo Oclini (1 hour 30 minutes from Malga Corandin – Gurndin Alm).\",\r\n  \"directions\": \"From Cavalese take first the road to Passo Lavazè and then continue to Passo Oclini.\",\r\n  \"parking\": \"Parking possibility at Passo Oclini.\",\r\n  \"ascentM\": 950,\r\n  \"descentM\": 950,\r\n  \"highestPointM\": 2440,\r\n  \"lowestPointM\": 1834,\r\n  \"tags\": [\r\n    \"refreshment_stops_available\",\r\n    \"scenic\",\r\n    \"round_trip\",\r\n    \"geological_highlights\",\r\n    \"flora\", \r\n    \"summit_route\"\r\n  ],\r\n  \"coordinates\": {\r\n    \"DD\": {\r\n      \"lat\": 46.347447,\r\n      \"lon\": 11.453642\r\n    },\r\n    \"DMS\": {\r\n      \"lat\": \"46°20'50.8\\\"N\",\r\n      \"lon\": \"11°27'13.1\\\"E\"\r\n    },\r\n    \"UTM\": {\r\n      \"zone\": \"32T\",\r\n      \"easting\": 688795,\r\n      \"northing\": 5135578\r\n    }\r\n  },\r\n  \"idAdmin\": \"691856153d4d10beecc227b0\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/trails",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"trails"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "\"/\"",
+					"id": "49894430-b4371189-5bde-4946-80bf-c48b8425f533",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Loop with ascent to Corno di Tres\",\r\n  \"description\": \"Trekking to Corno di Tres is one of the routes to do when you are in Trentino. This medium difficulty walk starts from Rifugio Predaia and reaches the incredibly panoramic summit of Corno di Tres! Those who want can continue by making a loop along the beautiful mountain ridge that divides the Val d'Adige from the Val di Non. Alternatively, you just go down the same way you came up.\",\r\n  \"region\": \"Trentino Alto-Adige\",\r\n  \"valley\": \"Val di Non\",\r\n  \"difficulty\": \"Medium\",\r\n  \"lengthKm\": 9.7,\r\n  \"duration\": {\r\n    \"hours\": 3,\r\n    \"minutes\": 30\r\n  },\r\n  \"roadbook\": \"From Rifugio Predaia take the dirt road (trail marker 503) which crosses, keeping level, meadows and young woods testifying to the advance of nature on land once used by man...\",\r\n  \"directions\": \"Start at Alagna Valsesia\",\r\n  \"parking\": \"At Rifugio Predaia – “Ai Todès ci\",\r\n  \"ascentM\": 520,\r\n  \"descentM\": 520,\r\n  \"highestPointM\": 1811,\r\n  \"lowestPointM\": 1404,\r\n  \"tags\": [\"round_trip\", \"scenic\", \"refreshment_stops_available\", \"summit_route\"],\r\n  \"coordinates\": {\r\n    \"DD\": {\r\n      \"lat\": 46.315155,\r\n      \"lon\": 11.153312\r\n    },\r\n    \"DMS\": {\r\n      \"lat\": \"46°18'54.6\\\"N\",\r\n      \"lon\": \"11°09'11.9\\\"E\"\r\n    },\r\n    \"UTM\": {\r\n      \"zone\": \"32T\",\r\n      \"easting\": 665785,\r\n      \"northing\": 5131317\r\n    }\r\n  },\r\n  \"idAdmin\": \"691856153d4d10beecc227b0\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:3000/trails",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"trails"
+							],
+							"query": [
+								{
+									"key": "region",
+									"value": "Trentino Alto-Adige",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "valley",
+									"value": "Alto Garda e Ledro",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "difficulty",
+									"value": "Difficult",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "minLength",
+									"value": "2",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "maxLength",
+									"value": "10",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "minDuration",
+									"value": "80",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "maxDuration",
+									"value": "600",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/near",
+					"id": "49894430-0ec007c0-2a86-4859-b436-ffa5ddb25553",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Loop with ascent to Corno di Tres\",\r\n  \"description\": \"Trekking to Corno di Tres is one of the routes to do when you are in Trentino. This medium difficulty walk starts from Rifugio Predaia and reaches the incredibly panoramic summit of Corno di Tres! Those who want can continue by making a loop along the beautiful mountain ridge that divides the Val d'Adige from the Val di Non. Alternatively, you just go down the same way you came up.\",\r\n  \"region\": \"Trentino Alto-Adige\",\r\n  \"valley\": \"Val di Non\",\r\n  \"difficulty\": \"Medium\",\r\n  \"lengthKm\": 9.7,\r\n  \"duration\": {\r\n    \"hours\": 3,\r\n    \"minutes\": 30\r\n  },\r\n  \"roadbook\": \"From Rifugio Predaia take the dirt road (trail marker 503) which crosses, keeping level, meadows and young woods testifying to the advance of nature on land once used by man...\",\r\n  \"directions\": \"Start at Alagna Valsesia\",\r\n  \"parking\": \"At Rifugio Predaia – “Ai Todès ci\",\r\n  \"ascentM\": 520,\r\n  \"descentM\": 520,\r\n  \"highestPointM\": 1811,\r\n  \"lowestPointM\": 1404,\r\n  \"tags\": [\"round_trip\", \"scenic\", \"refreshment_stops_available\", \"summit_route\"],\r\n  \"coordinates\": {\r\n    \"DD\": {\r\n      \"lat\": 46.315155,\r\n      \"lon\": 11.153312\r\n    },\r\n    \"DMS\": {\r\n      \"lat\": \"46°18'54.6\\\"N\",\r\n      \"lon\": \"11°09'11.9\\\"E\"\r\n    },\r\n    \"UTM\": {\r\n      \"zone\": \"32T\",\r\n      \"easting\": 665785,\r\n      \"northing\": 5131317\r\n    }\r\n  },\r\n  \"idAdmin\": \"691856153d4d10beecc227b0\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:3000/trails/near?lat=45.891618&lon=10.850779&radius=100",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"trails",
+								"near"
+							],
+							"query": [
+								{
+									"key": "lat",
+									"value": "45.891618"
+								},
+								{
+									"key": "lon",
+									"value": "10.850779"
+								},
+								{
+									"key": "radius",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "\"/:id\"",
+					"id": "49894430-d2e49d9e-c6bd-40e7-850b-adc721cf8c5b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Loop with ascent to Corno di Tres\",\r\n  \"description\": \"Trekking to Corno di Tres is one of the routes to do when you are in Trentino. This medium difficulty walk starts from Rifugio Predaia and reaches the incredibly panoramic summit of Corno di Tres! Those who want can continue by making a loop along the beautiful mountain ridge that divides the Val d'Adige from the Val di Non. Alternatively, you just go down the same way you came up.\",\r\n  \"region\": \"Trentino Alto-Adige\",\r\n  \"valley\": \"Val di Non\",\r\n  \"difficulty\": \"Medium\",\r\n  \"lengthKm\": 9.7,\r\n  \"duration\": {\r\n    \"hours\": 3,\r\n    \"minutes\": 30\r\n  },\r\n  \"roadbook\": \"From Rifugio Predaia take the dirt road (trail marker 503) which crosses, keeping level, meadows and young woods testifying to the advance of nature on land once used by man...\",\r\n  \"directions\": \"Start at Alagna Valsesia\",\r\n  \"parking\": \"At Rifugio Predaia – “Ai Todès ci\",\r\n  \"ascentM\": 520,\r\n  \"descentM\": 520,\r\n  \"highestPointM\": 1811,\r\n  \"lowestPointM\": 1404,\r\n  \"tags\": [\"round_trip\", \"scenic\", \"refreshment_stops_available\", \"summit_route\"],\r\n  \"coordinates\": {\r\n    \"DD\": {\r\n      \"lat\": 46.315155,\r\n      \"lon\": 11.153312\r\n    },\r\n    \"DMS\": {\r\n      \"lat\": \"46°18'54.6\\\"N\",\r\n      \"lon\": \"11°09'11.9\\\"E\"\r\n    },\r\n    \"UTM\": {\r\n      \"zone\": \"32T\",\r\n      \"easting\": 665785,\r\n      \"northing\": 5131317\r\n    }\r\n  },\r\n  \"idAdmin\": \"691856153d4d10beecc227b0\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:3000/trails/691873e03d4d10beecc227d2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"trails",
+								"691873e03d4d10beecc227d2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "\"/:id\"",
+					"id": "49894430-67fb4248-f249-461b-9338-ebc090595083",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"The chromatic contrast of Corno Nero and Corno Bianco\",\r\n  \"description\": \"Extremely panoramic hiking loop, which allows you to admire the Lagorai chain, the lower Val di Fiemme and to see the Val di Cembra in the distance. We are in Passo Oclini, where the road stops and you can only aim upwards towards the sky. The itinerary proposes the ascent of both peaks that frame the pass, but it is possible to go up just on one of them. The names of the two peaks say a lot about their composition: the Corno Nero is made of porphyry and dark rocks of volcanic origin, while the Corno Bianco stands out with its white dolomite. For this reason the two peaks are so different.\",\r\n  \"region\": \"Trentino Alto-Adige\",\r\n  \"valley\": \"Val di Fiemme\",\r\n  \"difficulty\": \"Difficult\",\r\n  \"lengthKm\": 12.6,\r\n  \"duration\": {\r\n    \"hours\": 6,\r\n    \"minutes\": 0\r\n  },\r\n  \"roadbook\": \"At Passo Oclini (1.989 m), just behind Hotel Schwarzhorn, take trail No. 502 first rising steeply and then continuing on a more even scenic route along the ridge to the summit of Corno Nero (2.491 m). From the summit take trail No. 502, with its spectacular route along the crest, to Monte Palone, and then descend to Baito di Cugola (1.900 m). A brief ascent to the right leads to Passo Cugola. From here take trail No. 14 in the direction of Malga Cugola Bassa (Alpine dairy). A good forest road (with markings for trail No. 14), leads to Malga Corandin – Gurndin Alm (1.952 m). From here there are two options: return to Passo Oclini on the easy unsurfaced road to the right (30 minutes), or turn left on this same track after 100 metres and take trail H, following directions for Corno Bianco continuing along this path to the summit of the mountain (2.317 m). From the top of Corno Bianco, backtrack down the route taken on the way up and then branch left, still on trail H, descending directly to Passo Oclini (1 hour 30 minutes from Malga Corandin – Gurndin Alm).\",\r\n  \"directions\": \"From Cavalese take first the road to Passo Lavazè and then continue to Passo Oclini.\",\r\n  \"parking\": \"Parking possibility at Passo Oclini.\",\r\n  \"ascentM\": 950,\r\n  \"descentM\": 950,\r\n  \"highestPointM\": 2440,\r\n  \"lowestPointM\": 1834,\r\n  \"tags\": [\r\n    \"refreshment_stops_available\",\r\n    \"scenic\",\r\n    \"round_trip\",\r\n    \"geological_highlights\",\r\n    \"flora\", \r\n    \"summit_route\"\r\n  ],\r\n  \"coordinates\": {\r\n    \"DD\": {\r\n      \"lat\": 46.347447,\r\n      \"lon\": 11.453642\r\n    },\r\n    \"DMS\": {\r\n      \"lat\": \"46°20'50.8\\\"N\",\r\n      \"lon\": \"11°27'13.1\\\"E\"\r\n    },\r\n    \"UTM\": {\r\n      \"zone\": \"32T\",\r\n      \"easting\": 688795,\r\n      \"northing\": 5135578\r\n    }\r\n  },\r\n  \"idAdmin\": \"691856153d4d10beecc227b0\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/trails/691873e03d4d10beecc227d2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"trails",
+								"691873e03d4d10beecc227d2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "\"/:id\"",
+					"id": "49894430-8a7ee135-dbca-4660-b726-50cba113e27b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Loop with ascent to Corno di Tres\",\r\n  \"description\": \"Trekking to Corno di Tres is one of the routes to do when you are in Trentino. This medium difficulty walk starts from Rifugio Predaia and reaches the incredibly panoramic summit of Corno di Tres! Those who want can continue by making a loop along the beautiful mountain ridge that divides the Val d'Adige from the Val di Non. Alternatively, you just go down the same way you came up.\",\r\n  \"region\": \"Trentino Alto-Adige\",\r\n  \"valley\": \"Val di Non\",\r\n  \"difficulty\": \"Medium\",\r\n  \"lengthKm\": 9.7,\r\n  \"duration\": {\r\n    \"hours\": 3,\r\n    \"minutes\": 30\r\n  },\r\n  \"roadbook\": \"From Rifugio Predaia take the dirt road (trail marker 503) which crosses, keeping level, meadows and young woods testifying to the advance of nature on land once used by man...\",\r\n  \"directions\": \"Start at Alagna Valsesia\",\r\n  \"parking\": \"At Rifugio Predaia – “Ai Todès ci\",\r\n  \"ascentM\": 520,\r\n  \"descentM\": 520,\r\n  \"highestPointM\": 1811,\r\n  \"lowestPointM\": 1404,\r\n  \"tags\": [\"round_trip\", \"scenic\", \"refreshment_stops_available\", \"summit_route\"],\r\n  \"coordinates\": {\r\n    \"DD\": {\r\n      \"lat\": 46.315155,\r\n      \"lon\": 11.153312\r\n    },\r\n    \"DMS\": {\r\n      \"lat\": \"46°18'54.6\\\"N\",\r\n      \"lon\": \"11°09'11.9\\\"E\"\r\n    },\r\n    \"UTM\": {\r\n      \"zone\": \"32T\",\r\n      \"easting\": 665785,\r\n      \"northing\": 5131317\r\n    }\r\n  },\r\n  \"idAdmin\": \"691856153d4d10beecc227b0\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:3000/trails/691873e03d4d10beecc227d2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"trails",
+								"691873e03d4d10beecc227d2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "49894430-5c76f0a9-9a2b-48d3-9eb7-b6a1b9b826f2"
+		},
+		{
+			"name": "Feedback",
+			"item": [
+				{
+					"name": "\"/\"",
+					"id": "49894430-50669ae5-cafd-415f-8cd8-a7998ae89289",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": \"69185bb63d4d10beecc227c2\",\r\n  \"idTrail\": \"691860c53d4d10beecc227ca\",\r\n  \"valutazione\": 3,\r\n  \"commento\": \"Ghe son nà ieri ma l'era brut temp\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/feedbacks",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"feedbacks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "\"/\"",
+					"id": "49894430-d475b139-8e0f-42c9-a832-e14d5fd0f141",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/feedbacks",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"feedbacks"
+							],
+							"query": [
+								{
+									"key": "valutazione",
+									"value": "5",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "\"/:id\"",
+					"id": "49894430-3d98f107-2fcc-49e7-8d5e-e8167918b15e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/feedbacks/69187f9b6fc2e444a98a51c5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"feedbacks",
+								"69187f9b6fc2e444a98a51c5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "\"/:id\"",
+					"id": "49894430-bff7d9c6-e8fc-4083-9d5f-9450433c0809",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": \"69185bab3d4d10beecc227bf\",\r\n  \"idTrail\": \"691860c53d4d10beecc227ca\",\r\n  \"valutazione\": 5,\r\n  \"commento\": \"Bellissimo percorso e panorama da mozzafiato!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/feedbacks/69187f9b6fc2e444a98a51c5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"feedbacks",
+								"69187f9b6fc2e444a98a51c5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "\"/:id\"",
+					"id": "49894430-61323e25-42cf-4632-ad39-8bd91bced66d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": \"69185bab3d4d10beecc227bf\",\r\n  \"idTrail\": \"691860c53d4d10beecc227ca\",\r\n  \"valutazione\": 5,\r\n  \"commento\": \"Bellissimo percorso e panorama da mozzafiato!\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/feedbacks/6918802c6fc2e444a98a51cc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"feedbacks",
+								"6918802c6fc2e444a98a51cc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "\"/trail/:idTrail\"",
+					"id": "49894430-7968e3b2-4c03-43a1-81bc-2109fa6c80aa",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/feedbacks/trail/691860c53d4d10beecc227ca",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"feedbacks",
+								"trail",
+								"691860c53d4d10beecc227ca"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "\"/user/:idUser\"",
+					"id": "49894430-a112b030-1344-4530-bb87-826e366209b4",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/feedbacks/user/69185bab3d4d10beecc227bf",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"feedbacks",
+								"user",
+								"69185bab3d4d10beecc227bf"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "49894430-787d1b25-e440-4288-8fb7-0ffd84c8b1e2"
+		},
+		{
+			"name": "Report",
+			"item": [
+				{
+					"name": "\"/\"",
+					"id": "49894430-c5771a95-2eb5-49ad-be13-fdc6f01da2e3",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": \"69185bb63d4d10beecc227c2\",\r\n  \"idTrail\": \"691870f33d4d10beecc227ce\",\r\n  \"testo\": \"Segnaletica mancante in alcuni punti del percorso.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/reports",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"reports"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "\"/\"",
+					"id": "49894430-40597280-f07e-4f8b-b515-4f9418535ecd",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/reports",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"reports"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "\"/:id\"",
+					"id": "49894430-0874e536-2898-4084-848a-cea90c425559",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/reports/691888536fc2e444a98a51f0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"reports",
+								"691888536fc2e444a98a51f0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "\"/:id\"",
+					"id": "49894430-c3bd0a5c-538a-42fa-ba0f-8e70670a420e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/reports/691888536fc2e444a98a51f0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"reports",
+								"691888536fc2e444a98a51f0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "\"/trail/:idTrail\"",
+					"id": "49894430-4b502ff9-69cd-4ee5-b01a-8f61bc92cee8",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/reports/trail/691860c53d4d10beecc227ca",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"reports",
+								"trail",
+								"691860c53d4d10beecc227ca"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "\"/user/:idUser\"",
+					"id": "49894430-3ba4457c-5c15-4653-8fc0-a1e11c94c1ae",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/reports/user/69185bb63d4d10beecc227c2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"reports",
+								"user",
+								"69185bb63d4d10beecc227c2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "49894430-dee76aac-e222-48ae-8a27-eab9cdbbb98e"
+		}
+	]
+}
