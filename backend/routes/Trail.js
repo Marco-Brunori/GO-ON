@@ -6,7 +6,6 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const {
-      id,
       region,
       valley,
       difficulty,
@@ -19,9 +18,6 @@ router.get("/", async (req, res) => {
 
     const filter = {};
 
-    if(id) {
-      filter._id = id;
-    }
     if(region) {
       filter.region = region;
     }
@@ -93,6 +89,27 @@ router.post("/", async (req, res) => {
   }
 });
 
+// -------- GET /trails/near?lat=&lon=&radius= --------
+router.get("/near", async (req, res) => {
+  try {
+    const { lat, lon, radius } = req.query;
+    if(!lat || !lon || !radius) {
+      return res.status(400).json({ error: "lat, lon and radius are required" });
+    }
+    const trails = await Trail.find({
+      location: {
+        $geoWithin: {
+          $centerSphere: [[Number(lon), Number(lat)], Number(radius) / 6371] // raggio in km / raggio terrestre
+        }
+      }
+    });
+    res.json(trails);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 // -------- GET /trails/:id --------
 router.get("/:id", async (req, res) => {
   try {
@@ -132,27 +149,6 @@ router.delete("/:id", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(400).json({ error: "Invalid ID" });
-  }
-});
-
-// -------- GET /trails/near?lat=&lon=&radius= --------
-router.get("/near", async (req, res) => {
-  try {
-    const { lat, lon, radius } = req.query;
-    if(!lat || !lon || !radius) {
-      return res.status(400).json({ error: "lat, lon and radius are required" });
-    }
-    const trails = await Trail.find({
-      location: {
-        $geoWithin: {
-          $centerSphere: [[Number(lon), Number(lat)], Number(radius) / 6371] // raggio in km / raggio terrestre
-        }
-      }
-    });
-    res.json(trails);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Server error" });
   }
 });
 
