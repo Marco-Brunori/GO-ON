@@ -276,76 +276,7 @@
 							]
 						}
 					},
-					"response": [
-						{
-							"id": "49894430-a0601aae-fde6-4e12-89b9-997864f461de",
-							"name": "\"/\"",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"title\": \"The chromatic contrast of Corno Nero and Corno Bianco\",\r\n  \"description\": \"Extremely panoramic hiking loop, which allows you to admire the Lagorai chain, the lower Val di Fiemme and to see the Val di Cembra in the distance. We are in Passo Oclini, where the road stops and you can only aim upwards towards the sky. The itinerary proposes the ascent of both peaks that frame the pass, but it is possible to go up just on one of them. The names of the two peaks say a lot about their composition: the Corno Nero is made of porphyry and dark rocks of volcanic origin, while the Corno Bianco stands out with its white dolomite. For this reason the two peaks are so different.\",\r\n  \"region\": \"Trentino Alto-Adige\",\r\n  \"valley\": \"Val di Fiemme\",\r\n  \"difficulty\": \"Difficult\",\r\n  \"lengthKm\": 12.6,\r\n  \"duration\": {\r\n    \"hours\": 6,\r\n    \"minutes\": 0\r\n  },\r\n  \"roadbook\": \"At Passo Oclini (1.989 m), just behind Hotel Schwarzhorn, take trail No. 502 first rising steeply and then continuing on a more even scenic route along the ridge to the summit of Corno Nero (2.491 m). From the summit take trail No. 502, with its spectacular route along the crest, to Monte Palone, and then descend to Baito di Cugola (1.900 m). A brief ascent to the right leads to Passo Cugola. From here take trail No. 14 in the direction of Malga Cugola Bassa (Alpine dairy). A good forest road (with markings for trail No. 14), leads to Malga Corandin – Gurndin Alm (1.952 m). From here there are two options: return to Passo Oclini on the easy unsurfaced road to the right (30 minutes), or turn left on this same track after 100 metres and take trail H, following directions for Corno Bianco continuing along this path to the summit of the mountain (2.317 m). From the top of Corno Bianco, backtrack down the route taken on the way up and then branch left, still on trail H, descending directly to Passo Oclini (1 hour 30 minutes from Malga Corandin – Gurndin Alm).\",\r\n  \"directions\": \"From Cavalese take first the road to Passo Lavazè and then continue to Passo Oclini.\",\r\n  \"parking\": \"Parking possibility at Passo Oclini.\",\r\n  \"ascentM\": 950,\r\n  \"descentM\": 950,\r\n  \"highestPointM\": 2440,\r\n  \"lowestPointM\": 1834,\r\n  \"tags\": [\r\n    \"refreshment_stops_available\",\r\n    \"scenic\",\r\n    \"round_trip\",\r\n    \"geological_highlights\",\r\n    \"flora\", \r\n    \"summit_route\"\r\n  ],\r\n  \"coordinates\": {\r\n    \"DD\": {\r\n      \"lat\": 46.347447,\r\n      \"lon\": 11.453642\r\n    },\r\n    \"DMS\": {\r\n      \"lat\": \"46°20'50.8\\\"N\",\r\n      \"lon\": \"11°27'13.1\\\"E\"\r\n    },\r\n    \"UTM\": {\r\n      \"zone\": \"32T\",\r\n      \"easting\": 688795,\r\n      \"northing\": 5135578\r\n    }\r\n  },\r\n  \"idAdmin\": \"691856153d4d10beecc227b0\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:3000/trails",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "3000",
-									"path": [
-										"trails"
-									]
-								}
-							},
-							"status": "Bad Request",
-							"code": 400,
-							"_postman_previewlanguage": null,
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "38"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"26-hT5pbyyABw+u30KfNXp7CgpCaJE\""
-								},
-								{
-									"key": "Date",
-									"value": "Sat, 15 Nov 2025 15:12:26 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"responseTime": null,
-							"body": "{\n    \"error\": \"Devi caricare un file .gpx\"\n}"
-						}
-					]
+					"response": []
 				},
 				{
 					"name": "\"/\"",
